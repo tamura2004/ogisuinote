@@ -1,16 +1,13 @@
 <template lang="pug">
-v-app
-  v-toolbar(app dense)
-    v-toolbar-title.headline.indigo--text おぎすい予定帳
-  v-content
-    router-view
+.subheading.ma-1.pa-2
+  slot
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class App extends Vue {
+export default class TaskBodyCell extends Vue {
 }
 </script>
 
@@ -18,6 +15,4 @@ export default class App extends Vue {
 .subheading
   border solid 1px lightgrey
   height 48px
-.b
-  border solid 1px black
 </style>

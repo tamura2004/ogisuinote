@@ -5,11 +5,11 @@ export default class Task {
     return {
       userId: null,
       date: null,
-      priority: null,
+      priority: '中',
       name: null,
       plan: null,
       actual: null,
-      memo: '',
+      memo: null,
     };
   }
 
@@ -18,7 +18,9 @@ export default class Task {
       typeof init.date === 'string' &&
       typeof init.priority === 'string' &&
       typeof init.name === 'string' &&
-      typeof init.plan === 'number';
+      typeof init.plan === 'number' &&
+      (typeof init.actual === 'number' || init.actual === null) &&
+      (typeof init.memo === 'string' || init.memo === null);
   }
 
   public userId!: string;
@@ -26,8 +28,8 @@ export default class Task {
   public priority!: string;
   public name!: string;
   public plan!: number;
-  public actual!: number;
-  public memo!: string;
+  public actual!: number | null;
+  public memo!: string | null;
 
   constructor(init: Partial<Task>) {
     Object.assign(this, init);
