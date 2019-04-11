@@ -2,7 +2,7 @@
 task-row-layout
   template(v-slot:priority): task-body-cell {{ form.priority }}
   template(v-slot:name): base-text-field(v-model="form.name")
-  template(v-slot:plan): task-time-select(v-model="form.plan" @change="save")
+  template(v-slot:plan): task-time-select(v-model="form.plan" @change="$emit('change')")
   template(v-slot:actual): task-time-select(v-model="form.actual")
   template(v-slot:memo): base-text-field(v-model="form.memo")
 </template>
@@ -21,14 +21,15 @@ export default class TaskRowEdit extends Vue {
 
   private form: Task = new Task(this.task);
 
-  private async save() {
+  private save() {
     this.form.userId = 'abc';
     this.form.date = this.date.toLocaleDateString(),
-    this.$emit('done');
 
     alert(JSON.stringify(this.form));
+    this.$emit('done');
+
     if (Task.valid(this.form)) {
-      await this.$store.dispatch(UPDATE, {
+      this.$store.dispatch(UPDATE, {
         collectionName: 'tasks',
         id: this.taskId,
         updates: this.form,

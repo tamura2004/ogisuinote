@@ -2,7 +2,7 @@
 task-row-layout
   template(v-slot:priority): task-priority-select(v-model="form.priority")
   template(v-slot:name): base-text-field(v-model="form.name")
-  template(v-slot:plan): task-time-select(v-model="form.plan" :disabled="nameNull")
+  template(v-slot:plan): task-time-select(v-model="form.plan" :disabled="nameNull" @change="save")
   template(v-slot:actual): task-body-cell {{ form.actual }}
   template(v-slot:memo): task-body-cell {{ form.memo }}
 </template>
@@ -23,15 +23,16 @@ export default class TaskRowNew extends Vue {
     return this.form.name === null || this.form.name === '';
   }
 
-  private save() {
+  private async save() {
     this.form.userId = 'abc';
     this.form.date = this.date.toLocaleDateString(),
 
     alert(JSON.stringify(this.form));
     if (Task.valid(this.form)) {
-      this.$store.dispatch(CREATE,
+      await this.$store.dispatch(CREATE,
         new Task({...this.form}),
       );
+      this.form = Task.form();
     } else {
       alert(`invalid task data: ${JSON.stringify(this.form)}`);
     }
