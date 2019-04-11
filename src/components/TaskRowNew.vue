@@ -1,7 +1,7 @@
 <template lang="pug">
 task-row-layout
   template(v-slot:priority): task-priority-select(v-model="form.priority")
-  template(v-slot:name): base-text-field(v-model="form.name")
+  template(v-slot:name): base-combobox(v-model="form.name")
   template(v-slot:plan): task-time-select(v-model="form.plan" :disabled="nameNull" @change="save")
   template(v-slot:actual): task-body-cell {{ form.actual }}
   template(v-slot:memo): task-body-cell {{ form.memo }}

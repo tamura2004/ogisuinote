@@ -28,7 +28,7 @@ export default class TaskIndex extends Vue {
   private date: Date = new Date();
 
   private get tasks() {
-    return this.$store.state.tasks;
+    return [...this.$store.state.tasks].filter(([key, task]) => task.date === this.date.toLocaleDateString());
   }
 
   private today() {
