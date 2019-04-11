@@ -9,15 +9,8 @@ task-row-layout
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import TaskRowLayout from '@/components/TaskRowLayout.vue';
-import TaskTitleCell from '@/components/TaskTitleCell.vue';
 
-@Component({
-  components: {
-    TaskRowLayout,
-    TaskTitleCell,
-  },
-})
+@Component
 export default class TaskTitleRow extends Vue {
 }
 </script>

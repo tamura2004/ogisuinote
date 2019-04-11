@@ -9,13 +9,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import BaseSelect from '@/components/BaseSelect.vue';
 
-@Component({
-  components: {
-    BaseSelect,
-  },
-})
+@Component
 export default class TaskTimeSelect extends Vue {
   @Prop() private value!: number | null;
   @Prop() private disabled!: boolean;

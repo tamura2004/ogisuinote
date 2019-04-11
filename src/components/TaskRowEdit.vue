@@ -1,6 +1,6 @@
 <template lang="pug">
 task-row-layout
-  template(v-slot:priority): task-priority-select(v-model="form.priority")
+  template(v-slot:priority): task-body-cell {{ form.priority }}
   template(v-slot:name): base-text-field(v-model="form.name")
   template(v-slot:plan): task-time-select(v-model="form.plan" @change="save")
   template(v-slot:actual): task-time-select(v-model="form.actual")
@@ -11,19 +11,8 @@ task-row-layout
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import Task from '@/models/Task';
 import { UPDATE } from '@/types/ActionTypes';
-import TaskRowLayout from '@/components/TaskRowLayout.vue';
-import BaseTextField from '@/components/BaseTextField.vue';
-import TaskPrioritySelect from '@/components/TaskPrioritySelect.vue';
-import TaskTimeSelect from '@/components/TaskTimeSelect.vue';
 
-@Component({
-  components: {
-    TaskRowLayout,
-    TaskPrioritySelect,
-    BaseTextField,
-    TaskTimeSelect,
-  },
-})
+@Component
 export default class TaskRowEdit extends Vue {
   @Prop() private date!: Date;
   @Prop() private userId!: string;

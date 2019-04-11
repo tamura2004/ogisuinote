@@ -22,17 +22,8 @@ import _ from 'lodash';
 import { Component, Vue } from 'vue-property-decorator';
 import { CREATE } from '@/types/ActionTypes';
 import Task from '@/models/Task';
-import TaskRowNew from '@/components/TaskRowNew.vue';
-import TaskTitleRow from '@/components/TaskTitleRow.vue';
-import TaskBodyRow from '@/components/TaskBodyRow.vue';
 
-@Component({
-  components: {
-    TaskRowNew,
-    TaskTitleRow,
-    TaskBodyRow,
-  },
-})
+@Component
 export default class TaskIndex extends Vue {
   private date: Date = new Date();
 

@@ -8,13 +8,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import BaseSelect from '@/components/BaseSelect.vue';
 
-@Component({
-  components: {
-    BaseSelect,
-  },
-})
+@Component
 export default class TaskPrioritySelect extends Vue {
   @Prop() private value!: string;
   private priorities = ['低', '中', '高'];

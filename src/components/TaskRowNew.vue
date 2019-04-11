@@ -3,30 +3,16 @@ task-row-layout
   template(v-slot:priority): task-priority-select(v-model="form.priority")
   template(v-slot:name): base-text-field(v-model="form.name")
   template(v-slot:plan): task-time-select(v-model="form.plan" :disabled="nameNull")
-  template(v-slot:actual): task-time-select(v-model="form.actual")
-  template(v-slot:memo): base-text-field(v-model="form.memo")
-  template(v-slot:action)
-    v-btn(fab small dark color="primary" @click="save")
-      v-icon done
+  template(v-slot:actual): task-body-cell {{ form.actual }}
+  template(v-slot:memo): task-body-cell {{ form.memo }}
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import Task from '@/models/Task';
 import { CREATE } from '@/types/ActionTypes';
-import TaskRowLayout from '@/components/TaskRowLayout.vue';
-import BaseTextField from '@/components/BaseTextField.vue';
-import TaskPrioritySelect from '@/components/TaskPrioritySelect.vue';
-import TaskTimeSelect from '@/components/TaskTimeSelect.vue';
 
-@Component({
-  components: {
-    TaskRowLayout,
-    TaskPrioritySelect,
-    BaseTextField,
-    TaskTimeSelect,
-  },
-})
+@Component
 export default class TaskRowNew extends Vue {
   @Prop() private date!: Date;
   @Prop() private userId!: string;
