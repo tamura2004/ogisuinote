@@ -1,6 +1,7 @@
 <template lang="pug">
-  v-combobox.ma-1(
+  v-combobox.b.ma-1(
     solo
+    flat
     hide-details
     :items="items"
     :value="value"
@@ -22,4 +23,6 @@ export default class BaseSelect extends Vue {
 </script>
 
 <style lang="stylus" scoped>
+.b
+  border solid 1px #0ff
 </style>

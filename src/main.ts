@@ -4,13 +4,16 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import Task from '@/models/Task';
-import { listen } from '@/plugins/firebase';
+import { listen, listenUser } from '@/plugins/firebase';
 import uppperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
+import { TimeDic } from '@/models/Times';
+import moment from 'moment';
 
 Vue.config.productionTip = false;
 
 listen(store, Task);
+listenUser(store);
 
 const requireComponent = require.context(
   './components',
@@ -32,6 +35,28 @@ requireComponent.keys().forEach((fileName: any) => {
     componentName,
     componentConfig.default || componentConfig,
   );
+});
+
+Vue.filter('toTime', (value: number | null) => {
+  if (value === null) {
+    return '';
+  } else {
+    const hour = Math.floor(value);
+    const minute = (value - hour) * 60;
+    let str = '';
+    if (hour !== 0) {
+      str += `${hour}時間`;
+    }
+    if (minute !== 0) {
+      str += `${minute}分`;
+    }
+    return str;
+  }
+});
+
+Vue.filter('toDate', (value: number) => {
+  moment.locale('ja');
+  return moment(value).format('YYYY年M月D日(ddd)');
 });
 
 new Vue({

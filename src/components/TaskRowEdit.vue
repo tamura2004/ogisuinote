@@ -1,8 +1,8 @@
 <template lang="pug">
 task-row-layout
   template(v-slot:priority): task-body-cell {{ form.priority }}
-  template(v-slot:name): base-text-field(v-model="form.name")
-  template(v-slot:plan): task-time-select(v-model="form.plan" @change="$emit('change')")
+  template(v-slot:name): task-body-cell {{ form.name }}
+  template(v-slot:plan): task-body-cell {{ form.plan | toTime }}
   template(v-slot:actual): task-time-select(v-model="form.actual")
   template(v-slot:memo): base-text-field(v-model="form.memo")
 </template>
@@ -14,7 +14,7 @@ import { UPDATE } from '@/types/ActionTypes';
 
 @Component
 export default class TaskRowEdit extends Vue {
-  @Prop() private date!: Date;
+  @Prop() private date!: number;
   @Prop() private userId!: string;
   @Prop() private taskId!: string;
   @Prop() private task!: Task;
@@ -22,8 +22,8 @@ export default class TaskRowEdit extends Vue {
   private form: Task = new Task(this.task);
 
   private save() {
-    this.form.userId = 'abc';
-    this.form.date = this.date.toLocaleDateString(),
+    this.form.userId = this.userId;
+    this.form.date = this.date;
 
     alert(JSON.stringify(this.form));
     this.$emit('done');

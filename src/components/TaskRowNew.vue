@@ -1,8 +1,8 @@
 <template lang="pug">
 task-row-layout
   template(v-slot:priority): task-priority-select(v-model="form.priority")
-  template(v-slot:name): base-combobox(v-model="form.name")
-  template(v-slot:plan): task-time-select(v-model="form.plan" :disabled="nameNull" @change="save")
+  template(v-slot:name): base-combobox(v-model="form.name" :items="taskNames")
+  template(v-slot:plan): task-time-select(v-model="form.plan" :disabled="nameInvalid" @change="save")
   template(v-slot:actual): task-body-cell {{ form.actual }}
   template(v-slot:memo): task-body-cell {{ form.memo }}
 </template>
@@ -11,23 +11,39 @@ task-row-layout
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import Task from '@/models/Task';
 import { CREATE } from '@/types/ActionTypes';
+import _ from 'lodash';
 
 @Component
 export default class TaskRowNew extends Vue {
-  @Prop() private date!: Date;
+  @Prop() private date!: number;
   @Prop() private userId!: string;
 
   private form: Form<Task> = Task.form();
 
-  private get nameNull(): boolean {
+  private get nameInvalid(): boolean {
     return this.form.name === null || this.form.name === '';
   }
 
-  private async save() {
-    this.form.userId = 'abc';
-    this.form.date = this.date.toLocaleDateString(),
+  private get todayTasks() {
+    return [...this.$store.state.tasks]
+      .filter(([, task]) => task.userId === this.userId && task.date === this.date)
+      .map(([, task]) => task.name);
+  }
 
-    alert(JSON.stringify(this.form));
+  private get otherdayTasks() {
+    return [...this.$store.state.tasks]
+      .filter(([, task]) => task.userId === this.userId && task.date !== this.date)
+      .map(([, task]) => task.name);
+  }
+
+  private get taskNames(): string[] {
+    return _.difference(this.otherdayTasks, this.todayTasks);
+  }
+
+  private async save() {
+    this.form.userId = this.userId;
+    this.form.date = this.date;
+
     if (Task.valid(this.form)) {
       await this.$store.dispatch(CREATE,
         new Task({...this.form}),

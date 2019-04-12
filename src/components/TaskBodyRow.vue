@@ -1,10 +1,10 @@
 <template lang="pug">
-  task-row-layout(v-if="!edit" @click.native="edit=true")
+  task-row-layout(v-if="!edit")
     template(v-slot:priority): task-body-cell {{ task.priority }}
     template(v-slot:name): task-body-cell {{ task.name }}
-    template(v-slot:plan): task-body-cell {{ task.plan }}
-    template(v-slot:actual): task-body-cell {{ task.actual }}
-    template(v-slot:memo): task-body-cell {{ task.memo || '-' }}
+    template(v-slot:plan): task-body-cell {{ task.plan | toTime }}
+    template(v-slot:actual): task-body-cell(@click.native="edit=true") {{ task.actual | toTime }}
+    template(v-slot:memo): task-body-cell(@click.native="edit=true") {{ task.memo || '-' }}
   task-row-edit(
     v-else
     :taskId="taskId"

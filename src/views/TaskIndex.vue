@@ -1,12 +1,14 @@
 <template lang="pug">
 v-container(fluid)
   v-layout(row align-center)
-    v-flex(xs2)
-      .display-1 {{ date.toLocaleDateString() }}
-    v-flex(xs8)
-      v-btn(small dark color="indigo lighten-1" @click="yesterday"): v-icon navigate_before
-      v-btn(small dark color="indigo lighten-1" @click="today") 今日
-      v-btn(small dark color="indigo lighten-1" @click="tomorrow"): v-icon navigate_next
+    v-flex(xs4)
+      .display-1 {{ date | toDate }}
+    v-flex(xs4)
+      task-date-button(@click="yesterday"): v-icon navigate_before
+      task-date-button(@click="today") 今日
+      task-date-button(@click="tomorrow"): v-icon navigate_next
+    v-flex(xs4)
+      .headline.text-xs-right {{ total | toTime }}
   task-title-row
   task-body-row(
     v-for="[key, task] in Array.from(tasks)"
@@ -14,39 +16,45 @@ v-container(fluid)
     :taskId="key"
     :task="task"
   )
-  task-row-new(:date="date" userId="abc")
+  task-row-new(:date="date" :userId="userId")
 </template>
 
 <script lang="ts">
-import _ from 'lodash';
 import { Component, Vue } from 'vue-property-decorator';
 import { CREATE } from '@/types/ActionTypes';
 import Task from '@/models/Task';
+import moment from 'moment';
 
 @Component
 export default class TaskIndex extends Vue {
-  private date: Date = new Date();
+  private date = moment().startOf('day').valueOf();
+
+  private get userId(): string {
+    if (this.$store.state.user) {
+      return this.$store.state.user.email;
+    } else {
+      return '';
+    }
+  }
+
+  private get total(): number {
+    return this.tasks.reduce((a, [, task]) => a += task.plan, 0);
+  }
 
   private get tasks() {
-    return [...this.$store.state.tasks].filter(([key, task]) => task.date === this.date.toLocaleDateString());
+    return [...this.$store.state.tasks].filter(([, task]) => task.date === this.date);
   }
 
   private today() {
-    this.date = new Date();
+    this.date = moment().startOf('day').valueOf();
   }
 
   private yesterday() {
-    this.date = this.dateAdd(-1);
+    this.date = moment(this.date).subtract(1, 'days').valueOf();
   }
 
   private tomorrow() {
-    this.date = this.dateAdd(1);
-  }
-
-  private dateAdd(n: number): Date {
-    const date = _.cloneDeep(this.date);
-    date.setDate(date.getDate() + n);
-    return date;
+    this.date = moment(this.date).add(1, 'days').valueOf();
   }
 }
 </script>

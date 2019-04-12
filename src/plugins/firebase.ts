@@ -17,6 +17,17 @@ const firebaseApp = firebase.initializeApp({
 
 export const db = firebaseApp.firestore();
 
+export function listenUser(store: Store<State>) {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      store.commit({
+        type: 'setUser',
+        user,
+      });
+    }
+  });
+}
+
 export function listen<T>(
   store: Store<State>,
   fn: (new(init: Partial<T>) => T) & { collectionName: string },

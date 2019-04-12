@@ -15,7 +15,7 @@ export default class Task {
 
   public static valid(init: Form<Task>): init is Task {
     return typeof init.userId === 'string' &&
-      typeof init.date === 'string' &&
+      typeof init.date === 'number' &&
       typeof init.priority === 'string' &&
       typeof init.name === 'string' &&
       typeof init.plan === 'number' &&
@@ -24,7 +24,7 @@ export default class Task {
   }
 
   public userId!: string;
-  public date!: string;
+  public date!: number; // unix time (milliseconds)
   public priority!: string;
   public name!: string;
   public plan!: number;

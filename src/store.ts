@@ -11,10 +11,9 @@ export default new Vuex.Store({
   state: new State(),
   getters: {
     tasks(state) {
-      return (userId: string, date: string) => new Map<string, Task>(
+      return (userId: string, date: number) => new Map<string, Task>(
         [...state.tasks]
         .filter(([, e]) => e.userId === userId && e.date === date),
-        // .sort(([, a], [, b]) => a.date - b.date),
       );
     },
     task(state) {
@@ -25,6 +24,9 @@ export default new Vuex.Store({
     set(state, { name, collection }) {
       Vue.set(state, name, collection);
     },
+    setUser(state, { user }) {
+      state.user = user;
+    }
   },
   actions: {
     async [CREATE]({}, payload) {

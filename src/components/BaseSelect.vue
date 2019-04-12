@@ -1,7 +1,9 @@
 <template lang="pug">
-  v-select.ma-1(
+  v-select.b.ma-1(
     solo
+    flat
     hide-details
+    height="32px"
     :items="items"
     :value="value"
     :disabled="disabled"
@@ -22,4 +24,6 @@ export default class BaseSelect extends Vue {
 </script>
 
 <style lang="stylus" scoped>
+.b
+  border solid 1px #0ff
 </style>

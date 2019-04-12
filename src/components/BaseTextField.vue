@@ -1,6 +1,7 @@
 <template lang="pug">
-  v-text-field.ma-1(
+  v-text-field.b.ma-1(
     solo
+    flat
     hide-details
     :value="value"
     @input="$emit('input', $event)"
@@ -18,4 +19,6 @@ export default class BaseTextField extends Vue {
 </script>
 
 <style lang="stylus" scoped>
+.b
+  border solid 1px #0ff
 </style>

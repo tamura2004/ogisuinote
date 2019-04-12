@@ -10,19 +10,14 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import { TIMES } from '@/models/Times';
 
 @Component
 export default class TaskTimeSelect extends Vue {
   @Prop() private value!: number | null;
   @Prop() private disabled!: boolean;
 
-  private get times(): number[] {
-    const ret = [];
-    for (let i = 0; i < 10; i++) {
-      ret.push((i + 1) / 2);
-    }
-    return ret;
-  }
+  private times = TIMES;
 }
 </script>
 
