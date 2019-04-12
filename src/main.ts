@@ -7,8 +7,9 @@ import Task from '@/models/Task';
 import { listen, listenUser } from '@/plugins/firebase';
 import uppperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
-import { TimeDic } from '@/models/Times';
 import moment from 'moment';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 Vue.config.productionTip = false;
 
@@ -57,6 +58,20 @@ Vue.filter('toTime', (value: number | null) => {
 Vue.filter('toDate', (value: number) => {
   moment.locale('ja');
   return moment(value).format('YYYY年M月D日(ddd)');
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.guestAccess)) {
+    next();
+  } else {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        next();
+      } else {
+        next({ path: '/signin' });
+      }
+    });
+  }
 });
 
 new Vue({

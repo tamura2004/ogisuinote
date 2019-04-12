@@ -18,10 +18,16 @@ export default new Router({
     {
       path: '/signin',
       component: Signin,
+      meta: {
+        guestAccess: true,
+      },
     },
     {
       path: '/signup',
       component: Signup,
+      meta: {
+        guestAccess: true,
+      },
     },
   ],
 });
