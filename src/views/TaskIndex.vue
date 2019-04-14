@@ -8,7 +8,8 @@ v-container(fluid)
       task-date-button(@click="today") 今日
       task-date-button(@click="tomorrow"): v-icon navigate_next
     v-flex(xs4)
-      .headline.text-xs-right {{ total | toTime }}
+      .headline.text-xs-right 稼働:{{ total | toTime }}
+        span(v-if="overwork > 0") (残業:{{ overwork | toTime }})
   task-title-row
   task-body-row(
     v-for="[key, task] in Array.from(tasks)"
@@ -39,6 +40,10 @@ export default class TaskIndex extends Vue {
 
   private get total(): number {
     return this.tasks.reduce((a, [, task]) => a += task.plan, 0);
+  }
+
+  private get overwork(): number {
+    return this.total < 7.5 ? 0 : this.total - 7.5;
   }
 
   private get tasks() {
