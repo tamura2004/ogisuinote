@@ -57,14 +57,14 @@ export default class Signup extends Vue {
       this.$root.$data.processing = true;
       const { user } = await firebase.auth().createUserWithEmailAndPassword(this.email, this.password);
       this.$root.$data.processing = false;
-      alert(`${user && user.email}でアカウントを作成しました`);
       if (user === null) {
         return;
       }
       user.updateProfile({
         displayName: this.name,
       });
-      this.$router.push('/signin');
+      await user.sendEmailVerification();
+      this.$router.push('/');
     } catch (err) {
       alert(err);
     }

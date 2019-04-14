@@ -42,7 +42,11 @@ export default class TaskIndex extends Vue {
   }
 
   private get tasks() {
-    return [...this.$store.state.tasks].filter(([, task]) => task.date === this.date);
+    return [...this.$store.state.tasks]
+      .filter(([, task]) =>
+        task.date === this.date &&
+        task.userId === this.userId,
+      );
   }
 
   private today() {

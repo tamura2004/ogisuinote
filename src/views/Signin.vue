@@ -21,6 +21,7 @@ v-container
           type="password"
           v-model="password"
           :rules="rules"
+          @keyup.enter="signin"
         )
     v-card-actions
       v-spacer
@@ -47,10 +48,8 @@ export default class Signin extends Vue {
 
   private async signin() {
     try {
-      this.$root.$data.processing = true;
-      const { user } = await firebase.auth().signInWithEmailAndPassword(this.email, this.password);
-      this.$root.$data.processing = false;
-      alert(`${user && user.email}でログインしました`);
+      const { user } = await firebase.auth()
+        .signInWithEmailAndPassword(this.email, this.password);
       this.$router.push('/');
 
     } catch (err) {
