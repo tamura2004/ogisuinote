@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import TaskIndex from '@/views/TaskIndex.vue';
 import Signin from '@/views/Signin.vue';
 import Signup from '@/views/Signup.vue';
+import ResetPassword from '@/views/ResetPassword.vue';
 
 Vue.use(Router);
 
@@ -25,6 +26,13 @@ export default new Router({
     {
       path: '/signup',
       component: Signup,
+      meta: {
+        guestAccess: true,
+      },
+    },
+    {
+      path: '/password',
+      component: ResetPassword,
       meta: {
         guestAccess: true,
       },

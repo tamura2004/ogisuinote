@@ -2,33 +2,20 @@
 v-container
   v-card.elevation-12
     v-toolbar(dark dense color="indigo")
-      v-toolbar-title ログイン
+      v-toolbar-title パスワードリセット
     v-card-text
       v-form(v-model="valid")
         v-text-field(
           prepend-icon="person"
           name="email"
-          label="email"
+          label="メールアドレス"
           type="text"
           v-model="email"
           :rules="rules"
         )
-        v-text-field(
-          id="password"
-          prepend-icon="lock"
-          name="password"
-          label="password"
-          type="password"
-          v-model="password"
-          :rules="rules"
-          @keyup.enter="signin"
-        )
     v-card-actions
       v-spacer
-      v-btn(color="primary" @click="signin" :disabled="!valid") ログイン
-    v-card-text
-      div: router-link(to="/signup") ID登録はこちら
-      div: router-link(to="/password") パスワードを忘れた方はこちら
+      v-btn(color="primary" @click="passwordReset" :disabled="!valid") リセットメール送信
 </template>
 
 <script lang="ts">
@@ -41,19 +28,18 @@ type validateFunc = Array<(v: string) => boolean | string>;
 @Component
 export default class Signin extends Vue {
   private email: string = '';
-  private password: string = '';
   private valid: boolean = false;
 
   private rules: validateFunc = [
     (v: string) => v !== '' || '必須項目です',
   ];
 
-  private async signin() {
+  private async passwordReset() {
+    const auth = firebase.auth();
+    auth.languageCode = 'ja';
     try {
-      const { user } = await firebase.auth()
-        .signInWithEmailAndPassword(this.email, this.password);
-      this.$router.push('/');
-
+      await auth.sendPasswordResetEmail(this.email);
+      this.$router.push('/signin');
     } catch (err) {
       alert(err);
     }

@@ -16,7 +16,7 @@ v-container
         v-text-field(
           prepend-icon="person"
           name="email"
-          label="電子メール"
+          label="メールアドレス"
           type="text"
           v-model="email"
           :rules="rules"
@@ -33,6 +33,8 @@ v-container
     v-card-actions
       v-spacer
       v-btn(color="primary" @click="signup" :disabled="!valid") ID登録
+    v-card-text
+      router-link(to="/signin") IDをお持ちの方はこちら
 </template>
 
 <script lang="ts">
@@ -53,10 +55,11 @@ export default class Signup extends Vue {
   ];
 
   private async signup() {
+    const auth = firebase.auth();
+    auth.languageCode = 'ja';
     try {
-      this.$root.$data.processing = true;
-      const { user } = await firebase.auth().createUserWithEmailAndPassword(this.email, this.password);
-      this.$root.$data.processing = false;
+      const { user } = await auth.createUserWithEmailAndPassword(this.email, this.password);
+      this.$parent.$data.processing = true;
       if (user === null) {
         return;
       }
@@ -67,6 +70,8 @@ export default class Signup extends Vue {
       this.$router.push('/');
     } catch (err) {
       alert(err);
+    } finally {
+      this.$parent.$data.processing = false;
     }
   }
 }
