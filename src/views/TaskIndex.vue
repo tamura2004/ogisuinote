@@ -16,6 +16,8 @@ v-container(fluid)
     :key="key"
     :taskId="key"
     :task="task"
+    :userId="userId"
+    :date="date"
   )
   task-row-new(:date="date" :userId="userId")
 </template>

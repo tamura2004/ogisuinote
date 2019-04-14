@@ -9,6 +9,8 @@
     v-else
     :taskId="taskId"
     :task="task"
+    :userId="userId"
+    :date="date"
     @done="edit=false"
   )
 </template>
@@ -21,6 +23,9 @@ import Task from '@/models/Task';
 export default class TaskBodyRow extends Vue {
   @Prop() private taskId!: string;
   @Prop() private task!: Task;
+  @Prop() private userId!: string;
+  @Prop() private date!: number;
+
   private edit: boolean = false;
 }
 </script>

@@ -3,8 +3,8 @@ task-row-layout
   template(v-slot:priority): task-body-cell {{ form.priority }}
   template(v-slot:name): task-body-cell {{ form.name }}
   template(v-slot:plan): task-body-cell {{ form.plan | toTime }}
-  template(v-slot:actual): task-time-select(v-model="form.actual")
-  template(v-slot:memo): base-text-field(v-model="form.memo")
+  template(v-slot:actual): task-time-select(v-model="form.actual" @input="save")
+  template(v-slot:memo): base-text-field(v-model="form.memo" @done="save")
 </template>
 
 <script lang="ts">
@@ -24,15 +24,15 @@ export default class TaskRowEdit extends Vue {
   private save() {
     this.form.userId = this.userId;
     this.form.date = this.date;
-
-    alert(JSON.stringify(this.form));
     this.$emit('done');
 
     if (Task.valid(this.form)) {
       this.$store.dispatch(UPDATE, {
         collectionName: 'tasks',
         id: this.taskId,
-        updates: this.form,
+        updates: {
+          ...this.form,
+        },
       });
     } else {
       alert(`invalid task data: ${JSON.stringify(this.form)}`);
