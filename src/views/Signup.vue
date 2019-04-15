@@ -1,13 +1,10 @@
 <template lang="pug">
 v-container
-  v-card.elevation-12
-    v-toolbar(dark dense color="indigo")
-      v-toolbar-title ID登録
-    v-card-text
+  base-menu-card(title="ID登録")
+    template(v-slot:form)
       v-form(v-model="valid")
         v-text-field(
           prepend-icon="person"
-          name="name"
           label="お名前"
           type="text"
           v-model="name"
@@ -15,26 +12,24 @@ v-container
         )
         v-text-field(
           prepend-icon="person"
-          name="email"
           label="メールアドレス"
           type="text"
           v-model="email"
           :rules="rules"
         )
         v-text-field(
-          id="password"
           prepend-icon="lock"
-          name="password"
           label="パスワード"
           type="password"
           v-model="password"
           :rules="rules"
           @keydown.enter="signup"
         )
-    v-card-actions
-      v-spacer
+
+    template(v-slot:action)
       v-btn(color="primary" @click="signup" :disabled="!valid") ID登録
-    v-card-text
+
+    template(v-slot:footer)
       router-link(to="/signin") IDをお持ちの方はこちら
 </template>
 

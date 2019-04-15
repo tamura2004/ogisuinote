@@ -1,34 +1,32 @@
 <template lang="pug">
 v-container
-  v-card.elevation-12
-    v-toolbar(dark dense color="indigo")
-      v-toolbar-title ログイン
-    v-card-text
+  base-menu-card(title="ログイン")
+    template(v-slot:form)
       v-form(v-model="valid")
         v-text-field(
           prepend-icon="person"
-          name="email"
           label="email"
           type="text"
           v-model="email"
           :rules="rules"
         )
         v-text-field(
-          id="password"
           prepend-icon="lock"
-          name="password"
           label="password"
           type="password"
           v-model="password"
           :rules="rules"
           @keydown.enter="signin"
         )
-    v-card-actions
-      v-spacer
+
+    template(v-slot:action)
       v-btn(color="primary" @click="signin" :disabled="!valid") ログイン
-    v-card-text
-      div: router-link(to="/signup") ID登録はこちら
-      div: router-link(to="/password") パスワードを忘れた方はこちら
+
+    template(v-slot:footer)
+      div
+        router-link(to="/signup") ID登録はこちら
+      div
+        router-link(to="/password") パスワードを忘れた方はこちら
 </template>
 
 <script lang="ts">
