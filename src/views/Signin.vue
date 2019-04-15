@@ -50,16 +50,11 @@ export default class Signin extends Vue {
   ];
 
   private async signin() {
-    try {
-      await this.$store.dispatch(
-        WAIT,
-        async () => firebase.auth().signInWithEmailAndPassword(this.email, this.password),
-      );
-      this.$router.push('/');
-
-    } catch (err) {
-      alert(err);
-    }
+    await this.$store.dispatch(
+      WAIT,
+      async () => firebase.auth().signInWithEmailAndPassword(this.email, this.password),
+    );
+    this.$router.push('/');
   }
 }
 </script>
