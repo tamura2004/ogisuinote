@@ -6,8 +6,7 @@
     :items="items"
     :value="value"
     :disabled="disabled"
-    @input="$emit('input', $event)"
-    @change="$emit('change')"
+    v-on="$listeners"
   )
 </template>
 

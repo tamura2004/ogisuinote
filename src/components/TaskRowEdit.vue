@@ -4,7 +4,12 @@ task-row-layout
   template(v-slot:name): task-body-cell {{ form.name }}
   template(v-slot:plan): task-body-cell {{ form.plan | toTime }}
   template(v-slot:actual): task-time-select(v-model="form.actual" @input="save")
-  template(v-slot:memo): base-text-field(v-model="form.memo" @done="save")
+  template(v-slot:memo)
+    base-text-field(
+      v-model="form.memo"
+      @blur="save"
+      @keydown.enter="save"
+    )
 </template>
 
 <script lang="ts">

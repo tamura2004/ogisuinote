@@ -4,9 +4,7 @@
     flat
     hide-details
     :value="value"
-    @input="$emit('input', $event)"
-    @keydown.enter="$emit('done')"
-    @blur="$emit('done')"
+    v-on="$listeners"
   )
 </template>
 

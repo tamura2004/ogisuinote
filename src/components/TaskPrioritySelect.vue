@@ -2,7 +2,7 @@
   base-select(
     :items="priorities"
     :value="value"
-    @input="$emit('input', $event)"
+    v-on="$listeners"
   )
 </template>
 

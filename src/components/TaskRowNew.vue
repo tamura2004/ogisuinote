@@ -2,7 +2,12 @@
 task-row-layout
   template(v-slot:priority): task-priority-select(v-model="form.priority")
   template(v-slot:name): base-combobox(v-model="form.name" :items="taskNames")
-  template(v-slot:plan): task-time-select(v-model="form.plan" :disabled="nameInvalid" @change="save")
+  template(v-slot:plan)
+    task-time-select(
+      v-model="form.plan"
+      :disabled="nameInvalid"
+      @change="save"
+    )
   template(v-slot:actual): task-body-cell {{ form.actual }}
   template(v-slot:memo): task-body-cell {{ form.memo }}
 </template>
