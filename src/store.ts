@@ -24,8 +24,8 @@ export default new Vuex.Store({
     set(state, { name, collection }) {
       Vue.set(state, name, collection);
     },
-    setUser(state, { user }) {
-      state.user = user;
+    setUser(state, payload) {
+      state.user = payload.user;
     },
   },
   actions: {

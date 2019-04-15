@@ -61,16 +61,10 @@ Vue.filter('toDate', (value: number) => {
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.guestAccess)) {
+  if (store.state.user || to.matched.some((record) => record.meta.guestAccess)) {
     next();
   } else {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        next();
-      } else {
-        next({ path: '/signin' });
-      }
-    });
+    next({ path: '/signin' });
   }
 });
 

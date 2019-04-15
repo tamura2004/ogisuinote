@@ -11,7 +11,13 @@ v-app
   v-toolbar(app dense)
     v-toolbar-side-icon(@click="drawer=!drawer")
     v-toolbar-title.headline.indigo--text おぎすい予定帳
-  v-content
+
+  v-content(v-if="processing")
+    v-container(fluid)
+      v-layout(align-center justify-center fill-height)
+        v-progress-circular.mt-5(:size="100" color="primary" indeterminate)
+
+  v-content(v-else)
     router-view
 </template>
 
@@ -24,9 +30,15 @@ import 'firebase/auth';
 export default class App extends Vue {
   private drawer: boolean = false;
 
+  private get processing(): boolean {
+    return this.$store.state.processing;
+  }
+
   private async logout() {
     await firebase.auth().signOut();
     this.$store.commit('setUser', { user: null });
+    this.drawer = false;
+    this.$router.push('signin');
   }
 
   private get userName(): string | undefined {

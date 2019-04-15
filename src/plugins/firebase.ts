@@ -24,6 +24,11 @@ export function listenUser(store: Store<State>) {
         type: 'setUser',
         user,
       });
+    } else {
+      store.commit({
+        type: 'setUser',
+        user: null,
+      });
     }
   });
 }
