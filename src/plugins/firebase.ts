@@ -3,6 +3,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import { Store } from 'vuex';
+import { SET, SET_USER } from '@/types/MutationTypes';
 
 import State from '@/models/State';
 
@@ -21,12 +22,12 @@ export function listenUser(store: Store<State>) {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       store.commit({
-        type: 'setUser',
+        type: SET_USER,
         user,
       });
     } else {
       store.commit({
-        type: 'setUser',
+        type: SET_USER,
         user: null,
       });
     }
@@ -44,7 +45,7 @@ export function listen<T>(
       collection.set(doc.id, new fn({...doc.data()}));
     });
     store.commit({
-      type: 'set',
+      type: SET,
       name,
       collection,
     });

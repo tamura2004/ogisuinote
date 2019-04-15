@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import Task from '@/models/Task';
-import { CREATE, UPDATE, DELETE } from '@/types/ActionTypes';
+import { CREATE, UPDATE, DELETE, WAIT } from '@/types/ActionTypes';
+import { SET, SET_USER, SET_WAIT } from '@/types/MutationTypes';
 import State from '@/models/State';
 import { db } from '@/plugins/firebase';
 
@@ -21,11 +22,14 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    set(state, { name, collection }) {
+    [SET](state, { name, collection }) {
       Vue.set(state, name, collection);
     },
-    setUser(state, payload) {
+    [SET_USER](state, payload) {
       state.user = payload.user;
+    },
+    [SET_WAIT](state, payload) {
+      state.wait = payload;
     },
   },
   actions: {
@@ -39,6 +43,16 @@ export default new Vuex.Store({
     },
     async [DELETE]({}, { collectionName, id }) {
       await db.collection(collectionName).doc(id).delete();
+    },
+    async [WAIT]({commit}, cb) {
+      try {
+        commit(SET_WAIT, true);
+        await cb();
+      } catch (err) {
+        alert(err);
+      } finally {
+        commit(SET_WAIT, false);
+      }
     },
   },
 });

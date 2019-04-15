@@ -29,6 +29,7 @@ v-container
           type="password"
           v-model="password"
           :rules="rules"
+          @keydown.enter="signup"
         )
     v-card-actions
       v-spacer
@@ -39,6 +40,7 @@ v-container
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import { WAIT } from '@/types/ActionTypes';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -58,22 +60,22 @@ export default class Signup extends Vue {
   private async signup() {
     const auth = firebase.auth();
     auth.languageCode = 'ja';
-    try {
-      const { user } = await auth.createUserWithEmailAndPassword(this.email, this.password);
-      this.$parent.$data.processing = true;
-      if (user === null) {
-        return;
-      }
-      user.updateProfile({
-        displayName: this.name,
-      });
-      await user.sendEmailVerification();
-      this.$router.push('/');
-    } catch (err) {
-      alert(err);
-    } finally {
-      this.$parent.$data.processing = false;
-    }
+
+    await this.$store.dispatch(
+      WAIT,
+      async () =>  {
+        const { user } = await auth.createUserWithEmailAndPassword(this.email, this.password);
+        if (user === null) {
+          alert('fail to create user');
+          return;
+        }
+        await user.updateProfile({
+          displayName: this.name,
+        });
+        // await user.sendEmailVerification();
+      },
+    );
+    this.$router.push('/signin');
   }
 }
 </script>

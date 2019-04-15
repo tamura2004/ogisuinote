@@ -39,8 +39,8 @@ requireComponent.keys().forEach((fileName: any) => {
 });
 
 Vue.filter('toTime', (value: number | null) => {
-  if (value === null) {
-    return '';
+  if (value === null || value === 0) {
+    return 'なし';
   } else {
     const hour = Math.floor(value);
     const minute = (value - hour) * 60;

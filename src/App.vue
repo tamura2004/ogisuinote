@@ -11,8 +11,11 @@ v-app
   v-toolbar(app dense)
     v-toolbar-side-icon(@click="drawer=!drawer")
     v-toolbar-title.headline.indigo--text おぎすい予定帳
+    v-spacer
+    v-toolbar-items.hidden-sm-and-down
+      v-btn(flat) {{ userName }}
 
-  v-content(v-if="processing")
+  v-content(v-if="wait")
     v-container(fluid)
       v-layout(align-center justify-center fill-height)
         v-progress-circular.mt-5(:size="100" color="primary" indeterminate)
@@ -23,6 +26,7 @@ v-app
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { SET_USER } from '@/types/MutationTypes';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -30,15 +34,15 @@ import 'firebase/auth';
 export default class App extends Vue {
   private drawer: boolean = false;
 
-  private get processing(): boolean {
-    return this.$store.state.processing;
+  private get wait(): boolean {
+    return this.$store.state.wait;
   }
 
   private async logout() {
     await firebase.auth().signOut();
-    this.$store.commit('setUser', { user: null });
+    this.$store.commit(SET_USER, { user: null });
     this.drawer = false;
-    this.$router.push('signin');
+    this.$router.push('/signin');
   }
 
   private get userName(): string | undefined {

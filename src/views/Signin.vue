@@ -33,6 +33,7 @@ v-container
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import { WAIT } from '@/types/ActionTypes';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -50,14 +51,14 @@ export default class Signin extends Vue {
 
   private async signin() {
     try {
-      this.$store.commit('set', { name: 'processing', collection: true });
-      await firebase.auth().signInWithEmailAndPassword(this.email, this.password);
+      await this.$store.dispatch(
+        WAIT,
+        async () => firebase.auth().signInWithEmailAndPassword(this.email, this.password),
+      );
       this.$router.push('/');
 
     } catch (err) {
       alert(err);
-    } finally {
-      this.$store.commit('set', { name: 'processing', collection: false });
     }
   }
 }
