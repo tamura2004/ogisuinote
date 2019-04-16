@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  base-navigation-drawer(app fixed v-model="drawer")
+  the-navigation-drawer(app fixed v-model="drawer")
   base-toolbar(@click="drawer=!drawer")
   v-content
     v-container(fluid)

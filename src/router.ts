@@ -27,7 +27,7 @@ export default new Router({
           meta: { guestAccess: true },
         },
         {
-          path: 'users',
+          path: 'users/index',
           component: UserIndex,
           meta: { guestAccess: true },
         },

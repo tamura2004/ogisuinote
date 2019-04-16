@@ -2,7 +2,7 @@
 div
   .headline {{ userId }}
   task-title-row
-  task-body-row(
+  task-row(
     v-for="[key, task] in tasks"
     :key="key"
     :taskId="key"

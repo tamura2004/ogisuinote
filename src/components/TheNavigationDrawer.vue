@@ -1,7 +1,7 @@
 <template lang="pug">
   v-navigation-drawer(app fixed v-model="drawer")
-    base-navigation-drawer-toolbar
-    base-navigation-drawer-list(@logout="drawer=false")
+    the-navigation-drawer-toolbar
+    the-navigation-drawer-list(@logout="drawer=false")
 </template>
 
 <script lang="ts">
@@ -11,7 +11,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 @Component
-export default class BaseNavigationDrawer extends Vue {
+export default class TheNavigationDrawer extends Vue {
   @Prop() private value!: boolean;
 
   private get drawer() {

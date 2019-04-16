@@ -1,6 +1,6 @@
 <template lang="pug">
 v-app
-  base-progress-circler(v-if="wait")
+  the-progress-circler(v-if="wait")
   router-view(v-else)
 </template>
 

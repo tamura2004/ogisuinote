@@ -14,7 +14,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 @Component
-export default class BaseNavigationDrawerList extends Vue {
+export default class TheNavigationDrawerList extends Vue {
   private menues = MENUES;
 
   private async logout() {

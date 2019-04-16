@@ -25,7 +25,7 @@ export const MENUES: Menu[] = [
     logout: false,
   },
   {
-    path: '/app/users',
+    path: '/app/users/index',
     icon: 'library_books',
     label: '全ユーザーサマリ',
     logout: false,

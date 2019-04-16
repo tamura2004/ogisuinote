@@ -15,7 +15,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
-export default class BaseNavigationCard extends Vue {
+export default class BaseMenuCard extends Vue {
   @Prop() private title!: string;
 }
 </script>

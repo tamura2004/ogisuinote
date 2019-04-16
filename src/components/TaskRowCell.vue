@@ -7,7 +7,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class TaskBodyCell extends Vue {
+export default class TaskRowCell extends Vue {
 }
 </script>
 

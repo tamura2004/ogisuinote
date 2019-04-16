@@ -1,10 +1,10 @@
 <template lang="pug">
 user-row-layout
-  template(v-slot:name): task-body-cell
+  template(v-slot:name): task-row-cell
     router-link(:to="`/app/user/${userId}/tasks`") {{ userId }}
-  template(v-slot:plan): task-body-cell {{ plan | toTime }}
-  template(v-slot:actual): task-body-cell {{ actual | toTime }}
-  template(v-slot:memo): task-body-cell {{ actual - plan | toTime }}
+  template(v-slot:plan): task-row-cell {{ plan | toTime }}
+  template(v-slot:actual): task-row-cell {{ actual | toTime }}
+  template(v-slot:memo): task-row-cell {{ actual - plan | toTime }}
 </template>
 
 <script lang="ts">

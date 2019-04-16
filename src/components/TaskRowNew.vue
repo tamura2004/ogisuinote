@@ -8,8 +8,8 @@ task-row-layout
       :disabled="nameInvalid"
       @change="save"
     )
-  template(v-slot:actual): task-body-cell {{ form.actual }}
-  template(v-slot:memo): task-body-cell {{ form.memo }}
+  template(v-slot:actual): task-row-cell {{ form.actual }}
+  template(v-slot:memo): task-row-cell {{ form.memo }}
 </template>
 
 <script lang="ts">

@@ -24,5 +24,5 @@ export default class BaseSelect extends Vue {
 
 <style lang="stylus" scoped>
 .b
-  border solid 1px #0ff
+  border solid 1px grey
 </style>

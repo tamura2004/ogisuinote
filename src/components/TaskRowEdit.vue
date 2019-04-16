@@ -1,8 +1,8 @@
 <template lang="pug">
 task-row-layout
-  template(v-slot:priority): task-body-cell {{ form.priority }}
-  template(v-slot:name): task-body-cell {{ form.name }}
-  template(v-slot:plan): task-body-cell {{ form.plan | toTime }}
+  template(v-slot:priority): task-row-cell {{ form.priority }}
+  template(v-slot:name): task-row-cell {{ form.name }}
+  template(v-slot:plan): task-row-cell {{ form.plan | toTime }}
   template(v-slot:actual): task-time-select(v-model="form.actual" @input="save")
   template(v-slot:memo)
     base-text-field(
