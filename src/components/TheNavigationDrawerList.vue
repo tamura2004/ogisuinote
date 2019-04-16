@@ -1,6 +1,6 @@
 <template lang="pug">
 v-list(dense)
-  menu-tile(
+  base-menu-tile(
     v-for="menu in menues"
     :menu="menu"
   )

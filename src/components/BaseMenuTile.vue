@@ -10,7 +10,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import { Menu } from '@/models/Menues';
 
 @Component
-export default class MenuTile extends Vue {
+export default class BaseMenuTile extends Vue {
   @Prop() private menu!: Menu;
 
   private click() {
