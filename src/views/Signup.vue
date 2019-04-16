@@ -35,7 +35,7 @@ v-container
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { WAIT } from '@/types/ActionTypes';
+import * as ACTION from '@/types/ActionTypes';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -57,7 +57,7 @@ export default class Signup extends Vue {
     auth.languageCode = 'ja';
 
     await this.$store.dispatch(
-      WAIT,
+      ACTION.WAIT,
       async () =>  {
         const { user } = await auth.createUserWithEmailAndPassword(this.email, this.password);
         if (user === null) {

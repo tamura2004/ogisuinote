@@ -16,7 +16,7 @@ v-container
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { WAIT } from '@/types/ActionTypes';
+import * as ACTION from '@/types/ActionTypes';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -33,7 +33,7 @@ export default class Signin extends Vue {
 
   private async passwordReset() {
     await this.$store.dispatch(
-      WAIT,
+      ACTION.WAIT,
       async () => {
         const auth = firebase.auth();
         auth.languageCode = 'ja';

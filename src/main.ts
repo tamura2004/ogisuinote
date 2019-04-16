@@ -8,8 +8,6 @@ import { listen, listenUser } from '@/plugins/firebase';
 import uppperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
 import moment from 'moment';
-import firebase from 'firebase/app';
-import 'firebase/auth';
 
 Vue.config.productionTip = false;
 
@@ -19,7 +17,7 @@ listenUser(store);
 const requireComponent = require.context(
   './components',
   false,
-  /(Base|Task|User)\w+\.vue$/,
+  /\w+\.vue$/,
 );
 
 requireComponent.keys().forEach((fileName: any) => {

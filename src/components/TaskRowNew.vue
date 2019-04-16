@@ -15,7 +15,7 @@ task-row-layout
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import Task from '@/models/Task';
-import { CREATE } from '@/types/ActionTypes';
+import * as ACTION from '@/types/ActionTypes';
 import _ from 'lodash';
 
 @Component
@@ -50,7 +50,7 @@ export default class TaskRowNew extends Vue {
     this.form.date = this.date;
 
     if (Task.valid(this.form)) {
-      await this.$store.dispatch(CREATE,
+      await this.$store.dispatch(ACTION.CREATE,
         new Task({...this.form}),
       );
       this.form = Task.form();
@@ -62,9 +62,4 @@ export default class TaskRowNew extends Vue {
 </script>
 
 <style lang="stylus" scoped>
-.subheading
-  border solid 1px lightgrey
-  height 48px
-.b
-  border solid 1px black
 </style>

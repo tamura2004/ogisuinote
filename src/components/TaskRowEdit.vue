@@ -15,7 +15,7 @@ task-row-layout
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import Task from '@/models/Task';
-import { UPDATE } from '@/types/ActionTypes';
+import * as ACTION from '@/types/ActionTypes';
 
 @Component
 export default class TaskRowEdit extends Vue {
@@ -32,7 +32,7 @@ export default class TaskRowEdit extends Vue {
     this.$emit('done');
 
     if (Task.valid(this.form)) {
-      this.$store.dispatch(UPDATE, {
+      this.$store.dispatch(ACTION.UPDATE, {
         collectionName: 'tasks',
         id: this.taskId,
         updates: {

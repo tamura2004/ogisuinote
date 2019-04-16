@@ -11,7 +11,7 @@ v-layout(row align-center)
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { mapActions, mapState } from 'vuex';
-import { TODAY, TOMORROW, YESTERDAY } from '@/types/ActionTypes';
+import * as ACTION from '@/types/ActionTypes';
 
 @Component
 export default class BaseTimeSelect extends Vue {
@@ -19,13 +19,13 @@ export default class BaseTimeSelect extends Vue {
     return this.$store.getters.date;
   }
   private today() {
-    this.$store.dispatch(TODAY);
+    this.$store.dispatch(ACTION.TODAY);
   }
   private yesterday() {
-    this.$store.dispatch(YESTERDAY);
+    this.$store.dispatch(ACTION.YESTERDAY);
   }
   private tomorrow() {
-    this.$store.dispatch(TOMORROW);
+    this.$store.dispatch(ACTION.TOMORROW);
   }
 }
 </script>

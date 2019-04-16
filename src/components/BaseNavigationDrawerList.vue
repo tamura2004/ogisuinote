@@ -1,36 +1,25 @@
 <template lang="pug">
-  v-list(dense)
-    v-list-tile(@click="logout")
-      v-list-tile-action
-        v-icon exit_to_app
-      v-list-tile-title ログアウト
-    v-list-tile(to="/app/tasks")
-      v-list-tile-action
-        v-icon list
-      v-list-tile-title 個人タスク一覧
-    v-list-tile(to="/app/users")
-      v-list-tile-action
-        v-icon people
-      v-list-tile-title 全ユーザー一覧
+v-list(dense)
+  menu-tile(
+    v-for="menu in menues"
+    :menu="menu"
+  )
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import { WAIT } from '@/types/ActionTypes';
-import { SET_USER } from '@/types/MutationTypes';
+import * as ACTION from '@/types/ActionTypes';
+import { MENUES } from '@/models/Menues';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
 @Component
 export default class BaseNavigationDrawerList extends Vue {
+  private menues = MENUES;
+
   private async logout() {
-    await this.$store.dispatch(
-      WAIT,
-      async ()  => firebase.auth().signOut(),
-    );
-    this.$store.commit(SET_USER, { user: null });
-    this.$emit('logout');
-    this.$router.push('/signin');
+    await this.$store.dispatch(ACTION.LOGOUT);
+    this.$emit('logout'); // close nav drawer
   }
 }
 </script>

@@ -1,9 +1,10 @@
 <template lang="pug">
 user-row-layout
-  template(v-slot:name): task-body-cell {{ userId }}
+  template(v-slot:name): task-body-cell
+    router-link(:to="`/app/user/${userId}/tasks`") {{ userId }}
   template(v-slot:plan): task-body-cell {{ plan | toTime }}
-  template(v-slot:actual): task-body-cell {{ plan | toTime }}
-  template(v-slot:memo): task-body-cell {{ plan | toTime }}
+  template(v-slot:actual): task-body-cell {{ actual | toTime }}
+  template(v-slot:memo): task-body-cell {{ actual - plan | toTime }}
 </template>
 
 <script lang="ts">
@@ -23,9 +24,16 @@ export default class UserBodyRow extends Vue {
   }
 
   private get plan() {
-    return this.tasks.map(([, task]) => task.plan).reduce((a, plan) => a + plan, 0);
+    return this.tasks
+      .map(([, task]) => task.plan)
+      .reduce((a, plan) => a + plan, 0);
   }
 
+  private get actual() {
+    return this.tasks
+      .map(([, task]) => task.actual || 0)
+      .reduce((a, actual) => a + actual, 0);
+  }
 }
 </script>
 

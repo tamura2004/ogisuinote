@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import Task from '@/models/Task';
-import { CREATE, UPDATE, DELETE, WAIT, TODAY, YESTERDAY, TOMORROW } from '@/types/ActionTypes';
+import * as ACTION from '@/types/ActionTypes';
 import { SET, SET_USER, SET_WAIT, SET_DATE } from '@/types/MutationTypes';
 import State from '@/models/State';
 import { db } from '@/plugins/firebase';
 import moment from 'moment';
 import _ from 'lodash';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 Vue.use(Vuex);
 
@@ -42,18 +43,18 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async [CREATE]({}, payload) {
+    async [ACTION.CREATE]({}, payload) {
       const conn = db.collection(payload.constructor.collectionName);
       const ref: any = await conn.add({...payload});
       return ref.id;
     },
-    async [UPDATE]({}, { collectionName, id, updates }) {
+    async [ACTION.UPDATE]({}, { collectionName, id, updates }) {
       await db.collection(collectionName).doc(id).update(updates);
     },
-    async [DELETE]({}, { collectionName, id }) {
+    async [ACTION.DELETE]({}, { collectionName, id }) {
       await db.collection(collectionName).doc(id).delete();
     },
-    async [WAIT]({ commit }, cb) {
+    async [ACTION.WAIT]({ commit }, cb) {
       try {
         commit(SET_WAIT, true);
         await cb();
@@ -63,14 +64,21 @@ export default new Vuex.Store({
         commit(SET_WAIT, false);
       }
     },
-    [TODAY]({ commit }) {
+    [ACTION.TODAY]({ commit }) {
       commit(SET_DATE, moment().startOf('day').valueOf());
     },
-    [YESTERDAY]({ commit, state }) {
+    [ACTION.YESTERDAY]({ commit, state }) {
       commit(SET_DATE, moment(state.date).subtract(1, 'days').valueOf());
     },
-    [TOMORROW]({ commit, state }) {
+    [ACTION.TOMORROW]({ commit, state }) {
       commit(SET_DATE, moment(state.date).add(1, 'days').valueOf());
+    },
+    async [ACTION.LOGOUT]({ commit, dispatch }) {
+      await dispatch(
+        ACTION.WAIT,
+        async ()  => firebase.auth().signOut(),
+      );
+      commit(SET_USER, { user: null });
     },
   },
 });
