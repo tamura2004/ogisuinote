@@ -8,7 +8,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class BaseToolbar extends Vue {
+export default class TheToolbar extends Vue {
 }
 </script>
 

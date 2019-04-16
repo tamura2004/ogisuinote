@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   the-navigation-drawer(app fixed v-model="drawer")
-  base-toolbar(@click="drawer=!drawer")
+  the-toolbar(@click="drawer=!drawer")
   v-content
     v-container(fluid)
       base-time-select
