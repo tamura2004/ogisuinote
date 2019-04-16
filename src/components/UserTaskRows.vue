@@ -21,7 +21,7 @@ import Task from '@/models/Task';
 
 @Component
 export default class UserTaskRows extends Vue {
-  @Prop() userId!: string;
+  @Prop() private userId!: string;
 
   private get date() {
     return this.$store.getters.date;
@@ -35,7 +35,7 @@ export default class UserTaskRows extends Vue {
     return this.total < 7.5 ? 0 : this.total - 7.5;
   }
 
-  private get tasks(): [string, Task][] {
+  private get tasks(): Array<[string, Task]> {
     return this.$store.getters.tasks(this.userId, this.date);
   }
 }

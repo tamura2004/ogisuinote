@@ -19,7 +19,7 @@ export default class UserBodyRow extends Vue {
     return this.$store.getters.date;
   }
 
-  private get tasks(): [string, Task][] {
+  private get tasks(): Array<[string, Task]> {
     return this.$store.getters.tasks(this.userId, this.date);
   }
 
