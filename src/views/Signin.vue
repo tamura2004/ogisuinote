@@ -52,7 +52,7 @@ export default class Signin extends Vue {
       WAIT,
       async () => firebase.auth().signInWithEmailAndPassword(this.email, this.password),
     );
-    this.$router.push('/');
+    this.$router.push('/app/tasks');
   }
 }
 </script>

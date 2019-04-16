@@ -4,6 +4,14 @@
       v-list-tile-action
         v-icon exit_to_app
       v-list-tile-title ログアウト
+    v-list-tile(to="/app/tasks")
+      v-list-tile-action
+        v-icon list
+      v-list-tile-title 個人タスク一覧
+    v-list-tile(to="/app/users")
+      v-list-tile-action
+        v-icon people
+      v-list-tile-title 全ユーザー一覧
 </template>
 
 <script lang="ts">
@@ -19,7 +27,7 @@ export default class BaseNavigationDrawerList extends Vue {
     await this.$store.dispatch(
       WAIT,
       async ()  => firebase.auth().signOut(),
-    )
+    );
     this.$store.commit(SET_USER, { user: null });
     this.$emit('logout');
     this.$router.push('/signin');

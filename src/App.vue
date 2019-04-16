@@ -1,10 +1,7 @@
 <template lang="pug">
 v-app
-  base-navigation-drawer(app fixed v-model="drawer")
-  base-toolbar(@click="drawer=!drawer")
-  v-content
-    base-progress-circler(v-if="wait")
-    router-view(v-else)
+  base-progress-circler(v-if="wait")
+  router-view(v-else)
 </template>
 
 <script lang="ts">

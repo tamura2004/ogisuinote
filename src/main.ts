@@ -19,7 +19,7 @@ listenUser(store);
 const requireComponent = require.context(
   './components',
   false,
-  /(Base|Task)\w+\.vue$/,
+  /(Base|Task|User)\w+\.vue$/,
 );
 
 requireComponent.keys().forEach((fileName: any) => {
@@ -64,7 +64,7 @@ router.beforeEach((to, from, next) => {
   if (store.state.user || to.matched.some((record) => record.meta.guestAccess)) {
     next();
   } else {
-    next({ path: '/signin' });
+    next({ path: '/' });
   }
 });
 
