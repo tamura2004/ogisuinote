@@ -14,11 +14,7 @@ export default class TaskIndex extends Vue {
   }
 
   private get userId(): string {
-    if (this.$store.state.user) {
-      return this.$store.state.user.email;
-    } else {
-      return '';
-    }
+    return this.$store.getters.userId;
   }
 }
 </script>

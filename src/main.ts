@@ -4,15 +4,20 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import Task from '@/models/Task';
+import User from '@/models/User';
+import Config from '@/models/Config';
 import { listen, listenUser } from '@/plugins/firebase';
 import uppperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
-import moment from 'moment';
+import toDate from '@/filters/ToDate';
+import toTime from '@/filters/ToTime';
 
 Vue.config.productionTip = false;
 
 listen(store, Task);
-listenUser(store);
+listen(store, User);
+listen(store, Config);
+listenUser(store); // listen current user
 
 const requireComponent = require.context(
   './components',
@@ -36,27 +41,8 @@ requireComponent.keys().forEach((fileName: any) => {
   );
 });
 
-Vue.filter('toTime', (value: number | null) => {
-  if (value === null || value === 0) {
-    return 'なし';
-  } else {
-    const hour = Math.floor(value);
-    const minute = (value - hour) * 60;
-    let str = '';
-    if (hour !== 0) {
-      str += `${hour}時間`;
-    }
-    if (minute !== 0) {
-      str += `${minute}分`;
-    }
-    return str;
-  }
-});
-
-Vue.filter('toDate', (value: number) => {
-  moment.locale('ja');
-  return moment(value).format('YYYY年M月D日(ddd)');
-});
+Vue.filter('toTime', toTime);
+Vue.filter('toDate', toDate);
 
 router.beforeEach((to, from, next) => {
   if (store.state.user || to.matched.some((record) => record.meta.guestAccess)) {

@@ -1,6 +1,10 @@
 <template lang="pug">
 div
-  user-task-rows(:userId="userId" v-for="userId in users" :key="userId")
+  user-task-rows(
+    v-for="userId in userIds"
+    :userId="userId"
+    :key="userId"
+  )
 </template>
 
 <script lang="ts">
@@ -8,8 +12,8 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class UsersTasks extends Vue {
-  private get users() {
-    return this.$store.getters.users;
+  private get userIds() {
+    return this.$store.getters.userIds;
   }
 }
 </script>

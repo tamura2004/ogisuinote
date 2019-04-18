@@ -8,12 +8,8 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component
 export default class TheNavigationDrawerToolbar extends Vue {
-  private get userName(): string | undefined {
-    if (this.$store.state.user) {
-      return this.$store.state.user.displayName;
-    } else {
-      return 'ゲスト';
-    }
+  private get userName() {
+    return this.$store.getters.userName(this.$store.getters.userId);
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template lang="pug">
 user-row-layout
   template(v-slot:name): task-row-cell
-    router-link(:to="`/app/user/${userId}/tasks`") {{ userId }}
+    router-link(:to="`/app/user/${userId}/tasks`") {{ userName }}
   template(v-slot:plan): task-row-cell {{ plan | toTime }}
   template(v-slot:actual): task-row-cell {{ actual | toTime }}
   template(v-slot:memo): task-row-cell {{ actual - plan | toTime }}
@@ -14,6 +14,10 @@ import Task from '@/models/Task';
 @Component
 export default class UserBodyRow extends Vue {
   @Prop() private userId!: string;
+
+  private get userName() {
+    return this.$store.getters.userName(this.userId);
+  }
 
   private get date() {
     return this.$store.getters.date;

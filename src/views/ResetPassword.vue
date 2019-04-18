@@ -40,7 +40,7 @@ export default class Signin extends Vue {
         await auth.sendPasswordResetEmail(this.email);
       },
     );
-    this.$router.push('/signin');
+    this.$router.push('/');
   }
 }
 </script>

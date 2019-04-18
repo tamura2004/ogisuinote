@@ -2,9 +2,9 @@
 div
   user-title-row
   user-body-row(
-    v-for="user in users"
-    :userId="user"
-    :key="user"
+    v-for="userId in userIds"
+    :userId="userId"
+    :key="userId"
   )
 </template>
 
@@ -17,8 +17,8 @@ export default class UserIndex extends Vue {
     return this.$store.getters.date;
   }
 
-  private get users() {
-    return this.$store.getters.users;
+  private get userIds() {
+    return this.$store.getters.userIds;
   }
 }
 </script>

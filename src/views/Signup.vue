@@ -3,20 +3,33 @@ v-container
   base-menu-card(title="ID登録")
     template(v-slot:form)
       v-form(v-model="valid")
-        v-text-field(
-          prepend-icon="person"
-          label="お名前"
-          type="text"
-          v-model="name"
-          :rules="rules"
-        )
-        v-text-field(
-          prepend-icon="person"
-          label="メールアドレス"
-          type="text"
-          v-model="email"
-          :rules="rules"
-        )
+        v-layout(row wrap)
+          v-flex(xs6)
+            v-text-field(
+              prepend-icon="person"
+              label="姓"
+              type="text"
+              v-model="form.familyName"
+              :rules="rules"
+            )
+          v-flex(xs6)
+            v-text-field.ml-4(
+              label="名"
+              type="text"
+              v-model="form.givenName"
+              :rules="rules"
+            )
+        v-layout(row wrap)
+          v-flex(xs6)
+            v-text-field(
+              prepend-icon="mail"
+              label="メールアドレス"
+              type="text"
+              v-model="form.email"
+              :rules="rules"
+            )
+          v-flex(xs6)
+            .subheading.mt-4.mx-2 {{ mailDomain }}
         v-text-field(
           prepend-icon="lock"
           label="パスワード"
@@ -30,21 +43,24 @@ v-container
       v-btn(color="primary" @click="signup" :disabled="!valid") ID登録
 
     template(v-slot:footer)
-      router-link(to="/signin") IDをお持ちの方はこちら
+      router-link(to="/") IDをお持ちの方はこちら
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import * as ACTION from '@/types/ActionTypes';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import User from '@/models/User';
+import { mapGetters } from 'vuex';
 
 type validateFunc = Array<(v: string) => boolean | string>;
 
-@Component
+@Component({
+  computed: {
+    ...mapGetters(['mailDomain']),
+  },
+})
 export default class Signup extends Vue {
-  private name: string = '';
-  private email: string = '';
+  private form = User.form();
   private password: string = '';
   private valid: boolean = false;
 
@@ -53,24 +69,15 @@ export default class Signup extends Vue {
   ];
 
   private async signup() {
-    const auth = firebase.auth();
-    auth.languageCode = 'ja';
-
-    await this.$store.dispatch(
-      ACTION.WAIT,
-      async () =>  {
-        const { user } = await auth.createUserWithEmailAndPassword(this.email, this.password);
-        if (user === null) {
-          alert('fail to create user');
-          return;
-        }
-        await user.updateProfile({
-          displayName: this.name,
-        });
-        // await user.sendEmailVerification();
-      },
-    );
-    this.$router.push('/signin');
+    if (!User.valid(this.form)) {
+      alert(`bad user data: ${JSON.stringify(this.form)}`);
+      return;
+    }
+    await this.$store.dispatch(ACTION.SIGNUP, {
+      form: this.form,
+      password: this.password,
+    });
+    this.$router.push('/');
   }
 }
 </script>

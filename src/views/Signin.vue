@@ -32,8 +32,6 @@ v-container
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import * as ACTION from '@/types/ActionTypes';
-import firebase from 'firebase/app';
-import 'firebase/auth';
 
 type validateFunc = Array<(v: string) => boolean | string>;
 
@@ -48,10 +46,10 @@ export default class Signin extends Vue {
   ];
 
   private async signin() {
-    await this.$store.dispatch(
-      ACTION.WAIT,
-      async () => firebase.auth().signInWithEmailAndPassword(this.email, this.password),
-    );
+    await this.$store.dispatch(ACTION.SIGNIN, {
+      email: this.email,
+      password: this.password,
+    });
     this.$router.push('/app/tasks');
   }
 }

@@ -12,9 +12,4 @@ export default class UserTasks extends Vue {
 </script>
 
 <style lang="stylus" scoped>
-.subheading
-  border solid 1px lightgrey
-  height 48px
-.b
-  border solid 1px black
 </style>

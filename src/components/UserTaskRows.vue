@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  .headline {{ userId }}
+  .headline {{ userName }}
   task-title-row
   task-row(
     v-for="[key, task] in tasks"
@@ -22,6 +22,10 @@ import Task from '@/models/Task';
 @Component
 export default class UserTaskRows extends Vue {
   @Prop() private userId!: string;
+
+  private get userName() {
+    return this.$store.getters.userName(this.userId);
+  }
 
   private get date() {
     return this.$store.getters.date;
