@@ -3,6 +3,7 @@ v-list(dense)
   base-menu-tile(
     v-for="menu in menues"
     :menu="menu"
+    :key="menu.path"
   )
 </template>
 

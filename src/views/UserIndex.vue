@@ -1,7 +1,11 @@
 <template lang="pug">
 div
   user-title-row
-  user-body-row(v-for="user in users" :userId="user")
+  user-body-row(
+    v-for="user in users"
+    :userId="user"
+    :key="user"
+  )
 </template>
 
 <script lang="ts">
