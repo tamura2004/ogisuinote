@@ -17,8 +17,6 @@ v-container
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import * as ACTION from '@/types/ActionTypes';
-import firebase from 'firebase/app';
-import 'firebase/auth';
 
 type validateFunc = Array<(v: string) => boolean | string>;
 
@@ -31,14 +29,10 @@ export default class Signin extends Vue {
     (v: string) => v !== '' || '必須項目です',
   ];
 
-  private async passwordReset() {
-    await this.$store.dispatch(
+  private  passwordReset() {
+    this.$store.dispatch(
       ACTION.WAIT,
-      async () => {
-        const auth = firebase.auth();
-        auth.languageCode = 'ja';
-        await auth.sendPasswordResetEmail(this.email);
-      },
+      async () => this.$store.dispatch(ACTION.PASSWORD_RESET, this),
     );
     this.$router.push('/');
   }

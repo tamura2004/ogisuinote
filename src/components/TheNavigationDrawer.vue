@@ -7,8 +7,6 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { SET_USER } from '@/types/MutationTypes';
-import firebase from 'firebase/app';
-import 'firebase/auth';
 
 @Component
 export default class TheNavigationDrawer extends Vue {

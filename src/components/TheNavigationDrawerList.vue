@@ -11,8 +11,6 @@ v-list(dense)
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import * as ACTION from '@/types/ActionTypes';
 import { MENUES } from '@/models/Menues';
-import firebase from 'firebase/app';
-import 'firebase/auth';
 
 @Component
 export default class TheNavigationDrawerList extends Vue {

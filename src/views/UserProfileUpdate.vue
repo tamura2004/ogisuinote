@@ -1,6 +1,6 @@
 <template lang="pug">
 v-container
-  base-menu-card(title="ID登録")
+  base-menu-card(title="ユーザー情報更新")
     template(v-slot:form)
       v-form(v-model="valid")
         v-layout(row wrap)
@@ -19,31 +19,9 @@ v-container
               v-model="form.givenName"
               :rules="rules"
             )
-        v-layout(row wrap)
-          v-flex(xs6)
-            v-text-field(
-              prepend-icon="mail"
-              label="メールアドレス"
-              type="text"
-              v-model="form.email"
-              :rules="rules"
-            )
-          v-flex(xs6)
-            .subheading.mt-4.mx-2 {{ mailDomain }}
-        v-text-field(
-          prepend-icon="lock"
-          label="パスワード"
-          type="password"
-          v-model="password"
-          :rules="rules"
-          @keydown.enter="signup"
-        )
 
     template(v-slot:action)
-      v-btn(color="primary" @click="signup" :disabled="!valid") ID登録
-
-    template(v-slot:footer)
-      router-link(to="/") IDをお持ちの方はこちら
+      v-btn(color="primary" @click="signup" :disabled="!valid") 更新
 </template>
 
 <script lang="ts">
@@ -61,6 +39,7 @@ type validateFunc = Array<(v: string) => boolean | string>;
 })
 export default class Signup extends Vue {
   private form = User.form();
+
   private password: string = '';
   private valid: boolean = false;
 
@@ -68,16 +47,29 @@ export default class Signup extends Vue {
     (v: string) => v !== '' || '必須項目です',
   ];
 
-  private signup() {
+  private get userId() {
+    return this.$store.getters.userId;
+  }
+
+  private get user() {
+    return this.$store.getters.user(this.userId);
+  }
+
+  private created() {
+    if (this.user === undefined) {
+      this.form = User.form();
+    } else {
+      const { familyName, givenName, email } = this.user;
+      this.form = { familyName, givenName, email };
+    }
+  }
+
+  private async signup() {
     if (!User.valid(this.form)) {
       alert(`bad user data: ${JSON.stringify(this.form)}`);
       return;
     }
-
-    this.$store.dispatch(
-      ACTION.WAIT,
-      async () => this.$store.dispatch(ACTION.SIGNUP, this),
-    );
+    await this.$store.dispatch(ACTION.USER_PROFILE_UPDATE, this);
     this.$router.push('/');
   }
 }

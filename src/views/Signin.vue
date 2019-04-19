@@ -45,11 +45,11 @@ export default class Signin extends Vue {
     (v: string) => v !== '' || '必須項目です',
   ];
 
-  private async signin() {
-    await this.$store.dispatch(ACTION.SIGNIN, {
-      email: this.email,
-      password: this.password,
-    });
+  private signin() {
+    this.$store.dispatch(
+      ACTION.WAIT,
+      async () => this.$store.dispatch(ACTION.SIGNIN, this),
+    );
     this.$router.push('/app/tasks');
   }
 }

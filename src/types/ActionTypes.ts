@@ -11,6 +11,8 @@ export const WAIT = 'WAIT';
 export const LOGOUT = 'LOGOUT';
 export const SIGNUP = 'SIGNUP';
 export const SIGNIN = 'SIGNIN';
+export const USER_PROFILE_UPDATE = 'USER_PROFILE_UPDATE';
+export const PASSWORD_RESET = 'PASSWORD_RESET';
 
 // current date
 export const TODAY = 'TODAY';
@@ -18,3 +20,4 @@ export const YESTERDAY = 'YESTERDAY';
 export const TOMORROW = 'TOMORROW';
 
 export const NEW_USER = 'NEW_USER';
+export const UPDATE_USER = 'UPDATE_USER';

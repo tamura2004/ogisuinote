@@ -31,14 +31,14 @@ export default new Vuex.Store({
     users(state) {
       return state.users;
     },
-    user(state, getters) {
+    user(state) {
       return (userId: string) => state.users.get(userId);
     },
     userName(state, getters) {
       return (userId: string) => {
         const user = getters.user(userId);
         return user ? `${user.familyName} ${user.givenName}` : 'ゲスト';
-      }
+      };
     },
     userId(state) {
       return state.user && state.user.uid;
@@ -76,11 +76,12 @@ export default new Vuex.Store({
       const ref: any = await conn.add({...payload});
       return ref.id;
     },
+    async [ACTION.NEW]({}, { id, payload }) {
+      const conn = db.collection(payload.constructor.collectionName);
+      await conn.doc(id).set({...payload});
+    },
     async [ACTION.UPDATE]({}, { collectionName, id, updates }) {
       await db.collection(collectionName).doc(id).update(updates);
-    },
-    async [ACTION.NEW]({}, { collectionName, id, data }) {
-      await db.collection(collectionName).doc(id).set(data);
     },
     async [ACTION.DELETE]({}, { collectionName, id }) {
       await db.collection(collectionName).doc(id).delete();
@@ -112,43 +113,41 @@ export default new Vuex.Store({
       commit(SET_USER, { user: null });
     },
     async [ACTION.SIGNUP]({ dispatch, getters }, { form, password }) {
-      await dispatch(
-        ACTION.WAIT,
-        async () => {
-          const { user } = await AUTH.createUserWithEmailAndPassword(
-            form.email + getters.mailDomain,
-            password,
-          );
-          if (user === null) {
-            alert('fail to create user');
-            return;
-          }
-          await user.updateProfile({
-            displayName: form.familyName + ' ' + form.givenName,
-          });
-          await dispatch(ACTION.NEW_USER, { user, form });
-        },
+      const { user } = await AUTH.createUserWithEmailAndPassword(
+        form.email + getters.mailDomain,
+        password,
       );
+      if (user === null) {
+        alert('fail to create user');
+        return;
+      }
+      await dispatch(ACTION.USER_PROFILE_UPDATE, { user, form });
+      await dispatch(ACTION.NEW_USER, { id: user.uid, form });
     },
-    async [ACTION.NEW_USER]({ dispatch, getters }, { user, form }) {
-      await dispatch(
-        ACTION.NEW,
-        {
-          collectionName: 'users',
-          id: user.uid,
-          data: {
-            givenName: form.givenName,
-            familyName: form.familyName,
-            email: form.email + getters.mailDomain,
-          },
-        },
-      );
+    async [ACTION.USER_PROFILE_UPDATE]({}, { user, form }) {
+      user.updateProfile({ displayName: form.familyName + ' ' + form.givenName });
     },
-    async [ACTION.SIGNIN]({ dispatch, getters }, { email, password }) {
-      await dispatch(
-        ACTION.WAIT,
-        async () => AUTH.signInWithEmailAndPassword(email + getters.mailDomain, password),
-      );
+    async [ACTION.NEW_USER]({ dispatch, getters }, { id, form }) {
+      const payload = new User({
+        ...form,
+        email: form.email + getters.mailDomain,
+      });
+      await dispatch(ACTION.NEW, { id, payload });
+    },
+    async [ACTION.UPDATE_USER]({ dispatch }, { id, form }) {
+      await dispatch(ACTION.UPDATE, {
+        collectionName: 'users',
+        id,
+        updates: {
+          ...form,
+        },
+      });
+    },
+    async [ACTION.SIGNIN]({ getters }, { email, password }) {
+      AUTH.signInWithEmailAndPassword(email + getters.mailDomain, password);
+    },
+    async [ACTION.PASSWORD_RESET]({}, { email }) {
+      AUTH.sendPasswordResetEmail(email);
     },
   },
 });
