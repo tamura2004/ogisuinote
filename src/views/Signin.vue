@@ -3,21 +3,8 @@ v-container
   base-menu-card(title="ログイン")
     template(v-slot:form)
       v-form(v-model="valid")
-        v-text-field(
-          prepend-icon="person"
-          label="email"
-          type="text"
-          v-model="email"
-          :rules="rules"
-        )
-        v-text-field(
-          prepend-icon="lock"
-          label="password"
-          type="password"
-          v-model="password"
-          :rules="rules"
-          @keydown.enter="signin"
-        )
+        base-email-text-field(v-model="email")
+        base-password-text-field(v-model="password")
 
     template(v-slot:action)
       v-btn(color="primary" @click="signin" :disabled="!valid") ログイン

@@ -3,23 +3,7 @@ v-container
   base-menu-card(title="ユーザー情報更新")
     template(v-slot:form)
       v-form(v-model="valid")
-        v-layout(row wrap)
-          v-flex(xs6)
-            v-text-field(
-              prepend-icon="person"
-              label="姓"
-              type="text"
-              v-model="form.familyName"
-              :rules="rules"
-            )
-          v-flex(xs6)
-            v-text-field.ml-4(
-              label="名"
-              type="text"
-              v-model="form.givenName"
-              :rules="rules"
-            )
-
+        base-username-text-field(v-model="form.name")
     template(v-slot:action)
       v-btn(color="primary" @click="signup" :disabled="!valid") 更新
 </template>
@@ -59,8 +43,8 @@ export default class Signup extends Vue {
     if (this.user === undefined) {
       this.form = User.form();
     } else {
-      const { familyName, givenName, email } = this.user;
-      this.form = { familyName, givenName, email };
+      const { name, email } = this.user;
+      this.form = { name, email };
     }
   }
 

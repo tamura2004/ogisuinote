@@ -37,7 +37,7 @@ export default new Vuex.Store({
     userName(state, getters) {
       return (userId: string) => {
         const user = getters.user(userId);
-        return user ? `${user.familyName} ${user.givenName}` : 'ゲスト';
+        return user ? user.name : 'ゲスト';
       };
     },
     userId(state) {
@@ -112,9 +112,9 @@ export default new Vuex.Store({
       );
       commit(SET_USER, { user: null });
     },
-    async [ACTION.SIGNUP]({ dispatch, getters }, { form, password }) {
+    async [ACTION.SIGNUP]({ dispatch }, { form, password }) {
       const { user } = await AUTH.createUserWithEmailAndPassword(
-        form.email + getters.mailDomain,
+        form.email,
         password,
       );
       if (user === null) {
@@ -125,12 +125,12 @@ export default new Vuex.Store({
       await dispatch(ACTION.NEW_USER, { id: user.uid, form });
     },
     async [ACTION.USER_PROFILE_UPDATE]({}, { user, form }) {
-      user.updateProfile({ displayName: form.familyName + ' ' + form.givenName });
+      user.updateProfile({ displayName: form.name });
     },
-    async [ACTION.NEW_USER]({ dispatch, getters }, { id, form }) {
+    async [ACTION.NEW_USER]({ dispatch }, { id, form }) {
       const payload = new User({
         ...form,
-        email: form.email + getters.mailDomain,
+        email: form.email,
       });
       await dispatch(ACTION.NEW, { id, payload });
     },
@@ -143,8 +143,8 @@ export default new Vuex.Store({
         },
       });
     },
-    async [ACTION.SIGNIN]({ getters }, { email, password }) {
-      AUTH.signInWithEmailAndPassword(email + getters.mailDomain, password);
+    async [ACTION.SIGNIN]({}, { email, password }) {
+      AUTH.signInWithEmailAndPassword(email, password);
     },
     async [ACTION.PASSWORD_RESET]({}, { email }) {
       AUTH.sendPasswordResetEmail(email);

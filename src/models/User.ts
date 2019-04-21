@@ -3,22 +3,19 @@ export default class User {
 
   public static form(): Form<User> {
     return {
-      familyName: null,
-      givenName: null,
+      name: null,
       email: null,
     };
   }
 
   public static valid(init: any): init is User {
-    return typeof init.familyName === 'string' &&
-      init.familyName.length > 0 &&
-      typeof init.givenName === 'string' &&
-      init.givenName.length > 0 &&
-      typeof init.email === 'string';
+    return typeof init.name === 'string' &&
+      init.name.length > 0 &&
+      typeof init.email === 'string' &&
+      init.email.length > 0;
   }
 
-  public familyName!: string;
-  public givenName!: string;
+  public name!: string;
   public email!: string;
 
   constructor(init: Partial<User>) {
