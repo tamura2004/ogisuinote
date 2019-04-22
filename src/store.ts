@@ -121,11 +121,11 @@ export default new Vuex.Store({
         alert('fail to create user');
         return;
       }
-      await dispatch(ACTION.USER_PROFILE_UPDATE, { user, form });
+      await dispatch(ACTION.PROFILE_UPDATE, { user, form });
       await dispatch(ACTION.NEW_USER, { id: user.uid, form });
     },
-    async [ACTION.USER_PROFILE_UPDATE]({}, { user, form }) {
-      user.updateProfile({ displayName: form.name });
+    async [ACTION.PROFILE_UPDATE]({}, { user, name }) {
+      user.updateProfile({ displayName: name });
     },
     async [ACTION.NEW_USER]({ dispatch }, { id, form }) {
       const payload = new User({
@@ -143,8 +143,14 @@ export default new Vuex.Store({
         },
       });
     },
-    async [ACTION.SIGNIN]({}, { email, password }) {
-      AUTH.signInWithEmailAndPassword(email, password);
+    async [ACTION.SIGNIN]({ dispatch, getters }, { email, password }) {
+      const { user } = await AUTH.signInWithEmailAndPassword(email, password);
+      if (user === null) {
+        return;
+      }
+      if (!getters.user(user.uid)) {
+        dispatch(ACTION.NEW_USER, { id: user.uid, form: { email: user.email, name: user.displayName }});
+      }
     },
     async [ACTION.PASSWORD_RESET]({}, { email }) {
       AUTH.sendPasswordResetEmail(email);

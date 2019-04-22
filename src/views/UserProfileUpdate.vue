@@ -1,11 +1,11 @@
 <template lang="pug">
-v-container
+v-container(v-if="user")
   base-menu-card(title="ユーザー情報更新")
     template(v-slot:form)
       v-form(v-model="valid")
-        base-username-text-field(v-model="form.name")
+        base-username-text-field(v-model="name")
     template(v-slot:action)
-      v-btn(color="primary" @click="signup" :disabled="!valid") 更新
+      v-btn(color="primary" @click="update" :disabled="!valid") 更新
 </template>
 
 <script lang="ts">
@@ -21,39 +21,29 @@ type validateFunc = Array<(v: string) => boolean | string>;
     ...mapGetters(['mailDomain']),
   },
 })
-export default class Signup extends Vue {
-  private form = User.form();
-
-  private password: string = '';
+export default class UserProfileUpdate extends Vue {
+  private name: string = '';
   private valid: boolean = false;
-
-  private rules: validateFunc = [
-    (v: string) => v !== '' || '必須項目です',
-  ];
 
   private get userId() {
     return this.$store.getters.userId;
   }
-
   private get user() {
     return this.$store.getters.user(this.userId);
   }
 
   private created() {
-    if (this.user === undefined) {
-      this.form = User.form();
-    } else {
-      const { name, email } = this.user;
-      this.form = { name, email };
+    if (this.user !== undefined) {
+      this.name = this.user.name;
     }
   }
 
   private async signup() {
-    if (!User.valid(this.form)) {
-      alert(`bad user data: ${JSON.stringify(this.form)}`);
+    if (this.user === undefined) {
+      alert('User must be logged in');
       return;
     }
-    await this.$store.dispatch(ACTION.USER_PROFILE_UPDATE, this);
+    await this.$store.dispatch(ACTION.PROFILE_UPDATE, this);
     this.$router.push('/');
   }
 }

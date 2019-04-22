@@ -14,9 +14,10 @@ import toTime from '@/filters/ToTime';
 
 Vue.config.productionTip = false;
 
+listen(store, Config);
 listen(store, Task);
 listen(store, User);
-listen(store, Config);
+
 listenUser(store); // listen current user
 
 const requireComponent = require.context(

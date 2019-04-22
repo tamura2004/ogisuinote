@@ -13,6 +13,12 @@ export const MENUES: Menu[] = [
     logout: true,
   },
   {
+    label: 'プロファイル変更',
+    icon: 'person',
+    path: '/user/update',
+    logout: false,
+  },
+  {
     path: '/app/tasks',
     icon: 'list',
     label: '個人タスク一覧',

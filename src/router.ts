@@ -9,6 +9,7 @@ import UsersTasks from '@/views/UsersTasks.vue';
 import Signin from '@/views/Signin.vue';
 import Signup from '@/views/Signup.vue';
 import ResetPassword from '@/views/ResetPassword.vue';
+import UserProfileUpdate from '@/views/UserProfileUpdate.vue';
 
 Vue.use(Router);
 
@@ -19,27 +20,22 @@ export default new Router({
     {
       path: '/app',
       component: TheNavigator,
-      meta: { guestAccess: true },
       children: [
         {
           path: 'tasks',
           component: TaskIndex,
-          meta: { guestAccess: true },
         },
         {
           path: 'users/index',
           component: UserIndex,
-          meta: { guestAccess: true },
         },
         {
           path: 'users/tasks',
           component: UsersTasks,
-          meta: { guestAccess: true },
         },
         {
           path: 'user/:userId/tasks',
           component: UserTasks,
-          meta: { guestAccess: true },
           props: true,
         },
       ],
@@ -58,6 +54,10 @@ export default new Router({
       path: '/password',
       component: ResetPassword,
       meta: { guestAccess: true },
+    },
+    {
+      path: '/user/update',
+      component: UserProfileUpdate,
     },
   ],
 });
