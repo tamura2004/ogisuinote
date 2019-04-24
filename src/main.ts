@@ -5,7 +5,6 @@ import router from './router';
 import store from './store';
 import Task from '@/models/Task';
 import User from '@/models/User';
-import Config from '@/models/Config';
 import { listen, listenUser } from '@/plugins/firebase';
 import uppperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
@@ -14,7 +13,6 @@ import toTime from '@/filters/ToTime';
 
 Vue.config.productionTip = false;
 
-listen(store, Config);
 listen(store, Task);
 listen(store, User);
 

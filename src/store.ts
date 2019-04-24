@@ -37,7 +37,7 @@ export default new Vuex.Store({
     userName(state, getters) {
       return (userId: string) => {
         const user = getters.user(userId);
-        return user ? user.name : 'ゲスト';
+        return !!user ? user.name : 'ゲスト';
       };
     },
     userId(state) {
@@ -47,7 +47,7 @@ export default new Vuex.Store({
       return state.users.keys();
     },
     config(state) {
-      return state.config.get('SF40rYUyFHPUjbRFVmue');
+      return state.config;
     },
     mailDomain(state, getters) {
       return getters.config && getters.config.mailDomain;
@@ -134,13 +134,15 @@ export default new Vuex.Store({
       });
       await dispatch(ACTION.NEW, { id, payload });
     },
-    async [ACTION.UPDATE_USER]({ dispatch }, { id, form }) {
+    async [ACTION.UPDATE_USER]({ dispatch, getters, state }, { userId, name }) {
       await dispatch(ACTION.UPDATE, {
         collectionName: 'users',
-        id,
-        updates: {
-          ...form,
-        },
+        id: userId,
+        updates: { name },
+      });
+      await dispatch(ACTION.PROFILE_UPDATE, {
+        user: state.user,
+        name,
       });
     },
     async [ACTION.SIGNIN]({ dispatch, getters }, { email, password }) {

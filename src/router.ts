@@ -6,6 +6,7 @@ import TaskIndex from '@/views/TaskIndex.vue';
 import UserIndex from '@/views/UserIndex.vue';
 import UserTasks from '@/views/UserTasks.vue';
 import UsersTasks from '@/views/UsersTasks.vue';
+
 import Signin from '@/views/Signin.vue';
 import Signup from '@/views/Signup.vue';
 import ResetPassword from '@/views/ResetPassword.vue';
@@ -38,6 +39,10 @@ export default new Router({
           component: UserTasks,
           props: true,
         },
+        {
+          path: 'user/update',
+          component: UserProfileUpdate,
+        },
       ],
     },
     {
@@ -54,10 +59,6 @@ export default new Router({
       path: '/password',
       component: ResetPassword,
       meta: { guestAccess: true },
-    },
-    {
-      path: '/user/update',
-      component: UserProfileUpdate,
     },
   ],
 });

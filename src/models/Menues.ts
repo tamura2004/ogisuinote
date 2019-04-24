@@ -15,7 +15,7 @@ export const MENUES: Menu[] = [
   {
     label: 'プロファイル変更',
     icon: 'person',
-    path: '/user/update',
+    path: '/app/user/update',
     logout: false,
   },
   {

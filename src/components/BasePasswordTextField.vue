@@ -5,7 +5,7 @@
     type="password"
     :value="value"
     :rules="rules"
-    @input="$emit('input', $event)"
+    v-on="inputListeners"
   )
 </template>
 
@@ -21,6 +21,17 @@ export default class BasePasswordTextField extends Vue {
   private rules: validateFunc = [
     (v: string) => !!v || '必須項目です',
   ];
+
+  private get inputListeners() {
+    return Object.assign({},
+      this.$listeners,
+      {
+        input: (event: Event) => {
+          this.$emit('input', event);
+        },
+      },
+    );
+  }
 }
 </script>
 

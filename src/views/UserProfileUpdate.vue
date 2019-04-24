@@ -38,13 +38,17 @@ export default class UserProfileUpdate extends Vue {
     }
   }
 
-  private async signup() {
+  private async update() {
     if (this.user === undefined) {
       alert('User must be logged in');
       return;
     }
-    await this.$store.dispatch(ACTION.PROFILE_UPDATE, this);
-    this.$router.push('/');
+    await this.$store.dispatch(ACTION.WAIT,
+      async () => {
+        await this.$store.dispatch(ACTION.UPDATE_USER, this);
+      },
+    );
+    this.$router.push('/app/tasks');
   }
 }
 </script>

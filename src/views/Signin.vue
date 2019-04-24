@@ -4,7 +4,7 @@ v-container
     template(v-slot:form)
       v-form(v-model="valid")
         base-email-text-field(v-model="email")
-        base-password-text-field(v-model="password")
+        base-password-text-field(v-model="password" @keyup.enter="signin")
 
     template(v-slot:action)
       v-btn(color="primary" @click="signin" :disabled="!valid") ログイン
