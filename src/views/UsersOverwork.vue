@@ -13,10 +13,6 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class UsersOverwork extends Vue {
-  private get date() {
-    return this.$store.getters.date;
-  }
-
   private get userIds() {
     return this.$store.getters.userIds;
   }

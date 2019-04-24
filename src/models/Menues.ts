@@ -19,7 +19,7 @@ export const MENUES: Menu[] = [
     logout: false,
   },
   {
-    path: '/app/users/index',
+    path: '/app/users/overwork',
     icon: 'library_books',
     label: '超過勤務予定',
     logout: false,

@@ -3,7 +3,6 @@ import Router from 'vue-router';
 
 import TheNavigator from '@/views/TheNavigator.vue';
 import TaskIndex from '@/views/TaskIndex.vue';
-import UserIndex from '@/views/UserIndex.vue';
 import UserTasks from '@/views/UserTasks.vue';
 import UsersTasks from '@/views/UsersTasks.vue';
 import UsersOverwork from '@/views/UsersOverwork.vue';
@@ -26,10 +25,6 @@ export default new Router({
         {
           path: 'tasks',
           component: TaskIndex,
-        },
-        {
-          path: 'users/index',
-          component: UserIndex,
         },
         {
           path: 'users/tasks',

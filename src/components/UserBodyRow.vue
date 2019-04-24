@@ -32,7 +32,7 @@ export default class UserBodyRow extends Vue {
   private get plan() {
     return this.tasks
       .map(([, task]) => task.plan)
-      .reduce((a, plan) => a + plan);
+      .reduce((a, plan) => a + plan, 0);
   }
 
   private get overwork(): number {
