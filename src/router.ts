@@ -6,6 +6,7 @@ import TaskIndex from '@/views/TaskIndex.vue';
 import UserIndex from '@/views/UserIndex.vue';
 import UserTasks from '@/views/UserTasks.vue';
 import UsersTasks from '@/views/UsersTasks.vue';
+import UsersOverwork from '@/views/UsersOverwork.vue';
 
 import Signin from '@/views/Signin.vue';
 import Signup from '@/views/Signup.vue';
@@ -42,6 +43,10 @@ export default new Router({
         {
           path: 'user/update',
           component: UserProfileUpdate,
+        },
+        {
+          path: 'users/overwork',
+          component: UsersOverwork,
         },
       ],
     },

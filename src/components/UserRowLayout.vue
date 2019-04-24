@@ -1,9 +1,10 @@
 <template lang="pug">
   v-layout(row align-center)
-    v-flex(xs6): slot(name="name")
+    v-flex(xs5): slot(name="name")
     v-flex(xs2): slot(name="plan")
-    v-flex(xs2): slot(name="actual")
-    v-flex(xs2): slot(name="memo")
+    v-flex(xs2): slot(name="lasttime")
+    v-flex(xs2): slot(name="overwork")
+    v-flex(xs1): slot(name="permit")
 </template>
 
 <script lang="ts">

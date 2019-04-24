@@ -44,7 +44,7 @@ export default new Vuex.Store({
       return state.user && state.user.uid;
     },
     userIds(state) {
-      return state.users.keys();
+      return [...state.users.keys()];
     },
     config(state) {
       return state.config;

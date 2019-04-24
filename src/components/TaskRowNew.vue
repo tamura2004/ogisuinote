@@ -4,10 +4,12 @@ task-row-layout
   template(v-slot:name): base-combobox(v-model="form.name" :items="taskNames")
   template(v-slot:plan)
     task-time-select(
+      v-if="intime"
       v-model="form.plan"
       :disabled="nameInvalid"
       @change="save"
     )
+    task-row-cell(v-else) {{ form.plan }}
   template(v-slot:actual): task-row-cell {{ form.actual }}
   template(v-slot:memo): task-row-cell {{ form.memo }}
 </template>
@@ -17,6 +19,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import Task from '@/models/Task';
 import * as ACTION from '@/types/ActionTypes';
 import _ from 'lodash';
+import moment from 'moment';
 
 @Component
 export default class TaskRowNew extends Vue {
@@ -24,6 +27,16 @@ export default class TaskRowNew extends Vue {
   @Prop() private userId!: string;
 
   private form: Form<Task> = Task.form();
+
+  // 当日の12:00が締め切り
+  private get deadline(): number {
+    return moment(this.date).startOf('day').add(12, 'hour').valueOf();
+  }
+
+  // 締め切り前判定
+  private get intime(): boolean {
+    return moment().valueOf() < this.deadline;
+  }
 
   private get nameInvalid(): boolean {
     return this.form.name === null || this.form.name === '';

@@ -7,18 +7,6 @@ export interface Menu {
 
 export const MENUES: Menu[] = [
   {
-    label: 'ログアウト',
-    icon: 'exit_to_app',
-    path: '/',
-    logout: true,
-  },
-  {
-    label: 'プロファイル変更',
-    icon: 'person',
-    path: '/app/user/update',
-    logout: false,
-  },
-  {
     path: '/app/tasks',
     icon: 'list',
     label: '個人タスク一覧',
@@ -33,7 +21,19 @@ export const MENUES: Menu[] = [
   {
     path: '/app/users/index',
     icon: 'library_books',
-    label: '全ユーザーサマリ',
+    label: '超過勤務予定',
     logout: false,
+  },
+  {
+    label: 'プロファイル変更',
+    icon: 'person',
+    path: '/app/user/update',
+    logout: false,
+  },
+  {
+    label: 'ログアウト',
+    icon: 'exit_to_app',
+    path: '/',
+    logout: true,
   },
 ];

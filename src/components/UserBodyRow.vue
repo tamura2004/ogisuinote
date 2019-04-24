@@ -3,13 +3,15 @@ user-row-layout
   template(v-slot:name): task-row-cell
     router-link(:to="`/app/user/${userId}/tasks`") {{ userName }}
   template(v-slot:plan): task-row-cell {{ plan | toTime }}
-  template(v-slot:actual): task-row-cell {{ actual | toTime }}
-  template(v-slot:memo): task-row-cell {{ actual - plan | toTime }}
+  template(v-slot:lasttime): task-row-cell {{ lasttime }}
+  template(v-slot:overwork): task-row-cell {{ overwork | toTime }}
+  template(v-slot:permit): task-row-cell
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import Task from '@/models/Task';
+import moment from 'moment';
 
 @Component
 export default class UserBodyRow extends Vue {
@@ -30,13 +32,20 @@ export default class UserBodyRow extends Vue {
   private get plan() {
     return this.tasks
       .map(([, task]) => task.plan)
-      .reduce((a, plan) => a + plan, 0);
+      .reduce((a, plan) => a + plan);
   }
 
-  private get actual() {
-    return this.tasks
-      .map(([, task]) => task.actual || 0)
-      .reduce((a, actual) => a + actual, 0);
+  private get overwork(): number {
+    return this.plan < 7.5 ? 0 : this.plan - 7.5;
+  }
+
+  private get lasttime(): string {
+    return moment()
+      .startOf('day')
+      .add(17, 'hour')
+      .add(10, 'minute')
+      .add(this.overwork, 'hour')
+      .format('H 時 mm 分');
   }
 }
 </script>

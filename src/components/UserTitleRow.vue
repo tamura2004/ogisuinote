@@ -1,9 +1,10 @@
 <template lang="pug">
 user-row-layout
   template(v-slot:name): task-title-cell ユーザー名
-  template(v-slot:plan): task-title-cell 見込時間
-  template(v-slot:actual): task-title-cell 実績時間
-  template(v-slot:memo): task-title-cell 差分
+  template(v-slot:plan): task-title-cell 合計時間
+  template(v-slot:lasttime): task-title-cell 終了時間
+  template(v-slot:overwork): task-title-cell 残業時間
+  template(v-slot:permit): task-title-cell 承認
 </template>
 
 <script lang="ts">
