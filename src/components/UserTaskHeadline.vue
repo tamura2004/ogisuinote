@@ -5,8 +5,8 @@ user-task-headline-layout
   template(v-slot:worktime)
     v-menu
       template(v-slot:activator="{ on }")
-        v-btn(flat v-on="on").headline.text-xs-right 稼働:{{ plan | toTime }}
-          span(v-if="overwork > 0") (残業:{{ overwork | toTime }})
+        v-btn(flat v-on="on").headline 始業8:40 〜 終業{{ lasttime }}
+          span(v-if="overwork > 0") (残業{{ overwork | toTime }})
       v-toolbar(flat dense dark)
         v-toolbar-title シフト申請
       v-list

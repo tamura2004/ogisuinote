@@ -34,6 +34,6 @@ export default class TimeMeasurable extends Vue {
       .add(17, 'hour')
       .add(10, 'minute')
       .add(this.overwork, 'hour')
-      .format('H 時 mm 分');
+      .format('H時mm分');
   }
 }
