@@ -18,7 +18,7 @@ export default class User {
   public name!: string;
   public email!: string;
 
-  constructor(init: Partial<User>) {
+  constructor(init: any) {
     if (User.valid(init)) {
       Object.assign(this, init);
     } else {

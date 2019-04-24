@@ -36,7 +36,7 @@ export function listenUser(store: Store<State>) {
 
 export function listen<T>(
   store: Store<State>,
-  fn: (new(init: Partial<T>) => T) & { collectionName: string },
+  fn: (new(init: any) => T) & { collectionName: string },
 ) {
   const name = fn.collectionName;
   db.collection(name).onSnapshot((query) => {

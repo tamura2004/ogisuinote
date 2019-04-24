@@ -3,8 +3,9 @@ import './plugins/vuetify';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import Task from '@/models/Task';
 import User from '@/models/User';
+import Task from '@/models/Task';
+import Shift from '@/models/Shift';
 import { listen, listenUser } from '@/plugins/firebase';
 import uppperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
@@ -13,8 +14,9 @@ import toTime from '@/filters/ToTime';
 
 Vue.config.productionTip = false;
 
-listen(store, Task);
 listen(store, User);
+listen(store, Task);
+listen(store, Shift);
 
 listenUser(store); // listen current user
 

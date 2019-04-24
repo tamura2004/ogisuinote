@@ -13,7 +13,7 @@ export default class Task {
     };
   }
 
-  public static valid(init: Form<Task>): init is Task {
+  public static valid(init: any): init is Task {
     return typeof init.userId === 'string' &&
       typeof init.date === 'number' &&
       typeof init.priority === 'string' &&
@@ -31,7 +31,11 @@ export default class Task {
   public actual!: number | null;
   public memo!: string | null;
 
-  constructor(init: Partial<Task>) {
-    Object.assign(this, init);
+  constructor(init: any) {
+    if (Task.valid(init)) {
+      Object.assign(this, init);
+    } else {
+      alert(`bad task init: ${JSON.stringify(init)}`);
+    }
   }
 }

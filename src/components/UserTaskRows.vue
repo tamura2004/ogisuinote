@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  .headline {{ userName }}
+  user-task-headline(:userId="userId")
   task-title-row
   task-row(
     v-for="[key, task] in tasks"
@@ -10,9 +10,6 @@ div
     :userId="userId"
     :date="date"
   )
-  slot
-  .headline.text-xs-right 稼働:{{ total | toTime }}
-    span(v-if="overwork > 0") (残業:{{ overwork | toTime }})
 </template>
 
 <script lang="ts">
