@@ -1,7 +1,7 @@
 <template lang="pug">
 task-row-layout
   template(v-slot:priority): base-select-priority(v-model="form.priority")
-  template(v-slot:name): base-combobox(v-model="form.name" :items="taskNames")
+  template(v-slot:name): base-combobox(v-model="form.name" :items="taskNames" @input="inputName")
   template(v-slot:plan)
     base-select-time(
       v-if="intime"
@@ -56,6 +56,13 @@ export default class TaskRowNew extends Vue {
 
   private get taskNames(): string[] {
     return _.difference(this.otherdayTasks, this.todayTasks);
+  }
+
+  private inputName() {
+    if (!this.intime) {
+      this.form.plan = 0;
+      this.save();
+    }
   }
 
   private async save() {

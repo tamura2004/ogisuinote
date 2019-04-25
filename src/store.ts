@@ -140,7 +140,7 @@ export default new Vuex.Store({
       });
       await dispatch(ACTION.NEW, { id, payload });
     },
-    async [ACTION.UPDATE_USER]({ dispatch, getters, state }, { userId, name }) {
+    async [ACTION.UPDATE_USER]({ dispatch, state }, { userId, name }) {
       await dispatch(ACTION.UPDATE, {
         collectionName: 'users',
         id: userId,
