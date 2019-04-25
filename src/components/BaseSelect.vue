@@ -8,12 +8,14 @@
     :value="value"
     :disabled="disabled"
     :label="label"
+    :rules="rules"
     v-on="$listeners"
   )
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
+type validateFunc = Array<(v: string) => boolean | string>;
 
 @Component
 export default class BaseSelect extends Vue {
@@ -21,6 +23,10 @@ export default class BaseSelect extends Vue {
   @Prop() private items!: number[];
   @Prop() private disabled!: boolean;
   @Prop() private label!: string;
+
+  private rules: validateFunc = [
+    (v: string) => !!v || '必須項目です',
+  ];
 }
 </script>
 
