@@ -12,10 +12,10 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import moment from 'moment';
 
 @Component
-export default class BaseStartTimeSelectField extends Vue {
+export default class BaseSelectStartTime extends Vue {
   @Prop() private value!: any;
 
-  private get items(): { text: string, value: number }[] {
+  private get items(): Array<{ text: string, value: number }> {
     const ret = [];
     for (let i = 0; i < 14; i++) {
       const minute = (5 + i) * 60; // start time of work by minute ex) 8:40 -> 520 (min)

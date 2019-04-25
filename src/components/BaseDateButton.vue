@@ -1,5 +1,5 @@
 <template lang="pug">
-.indigo.white--text.title.pa-1.ma-1
+v-btn(small dark outline color="indigo" @click="$emit('click')")
   slot
 </template>
 
@@ -7,7 +7,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class TaskTitleCell extends Vue {
+export default class BaseDateButton extends Vue {
 }
 </script>
 

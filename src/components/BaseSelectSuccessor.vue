@@ -12,14 +12,14 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import moment from 'moment';
 
 @Component
-export default class BaseSuccessorSelectField extends Vue {
+export default class BaseSelectSuccessor extends Vue {
   @Prop() private value!: any;
 
   private get currentUserId() {
     return this.$store.getters.userId;
   }
 
-  private get items(): { text: string, value: number }[] {
+  private get items(): Array<{ text: string, value: number }> {
     const ret = [];
     for (const [userId, user] of [...this.$store.getters.users]) {
       if (this.currentUserId !== userId) {

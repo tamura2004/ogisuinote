@@ -1,5 +1,5 @@
 <template lang="pug">
-user-task-headline-layout
+the-user-headline-layout
   template(v-slot:name)
     .headline {{ userName }}
   template(v-slot:worktime)
@@ -11,12 +11,12 @@ user-task-headline-layout
 
 <script lang="ts">
 import { Component, Vue, Mixins } from 'vue-property-decorator';
-import TimeMeasurable from '@/components/TimeMeasurable';
+import TimeMeasurable from '@/mixins/TimeMeasurable';
 
 @Component
-export default class UserTaskHeadline extends Mixins(TimeMeasurable) {
+export default class TheUserHeadline extends Mixins(TimeMeasurable) {
   private go() {
-    this.$router.push('/app/shift/new')
+    this.$router.push('/app/shift/new');
   }
 }
 </script>

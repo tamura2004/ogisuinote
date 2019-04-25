@@ -1,8 +1,8 @@
 <template lang="pug">
 div
-  user-task-headline(:userId="userId")
-  task-title-row
-  task-row(
+  the-user-headline(:userId="userId")
+  task-row-title
+  task-row-body(
     v-for="[key, task] in tasks"
     :key="key"
     :taskId="key"
@@ -17,7 +17,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import Task from '@/models/Task';
 
 @Component
-export default class UserTaskRows extends Vue {
+export default class TaskLayout extends Vue {
   @Prop() private userId!: string;
 
   private get userName() {

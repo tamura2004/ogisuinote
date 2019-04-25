@@ -4,7 +4,7 @@ div
   the-toolbar(@click="drawer=!drawer")
   v-content
     v-container(fluid)
-      base-time-select
+      base-date-button-group
       router-view
 </template>
 

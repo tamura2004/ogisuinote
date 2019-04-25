@@ -10,7 +10,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component
-export default class TaskPrioritySelect extends Vue {
+export default class BaseSelectPriority extends Vue {
   @Prop() private value!: string;
   private priorities = ['低', '中', '高'];
 }

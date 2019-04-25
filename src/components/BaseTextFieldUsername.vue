@@ -24,7 +24,7 @@ import * as ACTION from '@/types/ActionTypes';
 type validateFunc = Array<(v: string) => boolean | string>;
 
 @Component
-export default class BaseUsernameTextField extends Vue {
+export default class BaseTextFieldUsername extends Vue {
   @Prop() private value!: string | null;
 
   private rules: validateFunc = [

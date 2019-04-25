@@ -1,5 +1,5 @@
 <template lang="pug">
-.subheading.ma-1.pa-2
+.indigo.white--text.title.pa-1.ma-1
   slot
 </template>
 
@@ -7,12 +7,9 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class TaskRowCell extends Vue {
+export default class BaseRowCellTitle extends Vue {
 }
 </script>
 
 <style lang="stylus" scoped>
-.subheading
-  border solid 1px lightgrey
-  height 48px
 </style>

@@ -1,17 +1,17 @@
 <template lang="pug">
 task-row-layout
-  template(v-slot:priority): task-priority-select(v-model="form.priority")
+  template(v-slot:priority): base-select-priority(v-model="form.priority")
   template(v-slot:name): base-combobox(v-model="form.name" :items="taskNames")
   template(v-slot:plan)
-    task-time-select(
+    base-select-time(
       v-if="intime"
       v-model="form.plan"
       :disabled="nameInvalid"
       @change="save"
     )
-    task-row-cell(v-else) {{ form.plan }}
-  template(v-slot:actual): task-row-cell {{ form.actual }}
-  template(v-slot:memo): task-row-cell {{ form.memo }}
+    base-row-cell-body(v-else) {{ form.plan }}
+  template(v-slot:actual): base-row-cell-body {{ form.actual }}
+  template(v-slot:memo): base-row-cell-body {{ form.memo }}
 </template>
 
 <script lang="ts">

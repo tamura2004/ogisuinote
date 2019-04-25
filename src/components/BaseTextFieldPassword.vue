@@ -15,7 +15,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 type validateFunc = Array<(v: string) => boolean | string>;
 
 @Component
-export default class BasePasswordTextField extends Vue {
+export default class BaseTextFieldPassword extends Vue {
   @Prop() private value!: string;
 
   private rules: validateFunc = [

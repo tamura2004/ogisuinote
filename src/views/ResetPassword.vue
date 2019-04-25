@@ -3,7 +3,7 @@ v-container
   base-menu-card(title="パスワードリセット")
     template(v-slot:form)
       v-form(v-model="valid")
-        base-email-text-field(v-model="email")
+        base-text-field-email(v-model="email")
     template(v-slot:action)
       v-btn(
         color="primary"

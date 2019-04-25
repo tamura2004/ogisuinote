@@ -18,7 +18,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 type validateFunc = Array<(v: string) => boolean | string>;
 
 @Component
-export default class BaseEmailTextField extends Vue {
+export default class BaseTextFieldEmail extends Vue {
   @Prop() private value!: string | null;
 
   private get email() {

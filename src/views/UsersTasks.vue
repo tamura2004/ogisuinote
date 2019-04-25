@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  user-task-rows(
+  task-layout(
     v-for="userId in userIds"
     :userId="userId"
     :key="userId"

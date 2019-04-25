@@ -16,7 +16,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import Task from '@/models/Task';
 
 @Component
-export default class TaskRow extends Vue {
+export default class TaskRowBody extends Vue {
   @Prop() private taskId!: string;
   @Prop() private task!: Task;
   @Prop() private userId!: string;

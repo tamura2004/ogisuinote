@@ -1,5 +1,5 @@
 <template lang="pug">
-  user-task-rows(:userId="userId")
+  task-layout(:userId="userId")
 </template>
 
 <script lang="ts">

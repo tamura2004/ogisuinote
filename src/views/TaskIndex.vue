@@ -1,6 +1,6 @@
 <template lang="pug">
 v-container(fluid)
-  user-task-rows(:userId="userId")
+  task-layout(:userId="userId")
   task-row-new(:date="date" :userId="userId")
 </template>
 

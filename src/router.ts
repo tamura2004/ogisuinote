@@ -5,7 +5,7 @@ import TheNavigator from '@/views/TheNavigator.vue';
 import TaskIndex from '@/views/TaskIndex.vue';
 import UserTasks from '@/views/UserTasks.vue';
 import UsersTasks from '@/views/UsersTasks.vue';
-import UsersOverwork from '@/views/UsersOverwork.vue';
+import OverworkIndexPage from '@/views/OverworkIndexPage.vue';
 
 import Signin from '@/views/Signin.vue';
 import Signup from '@/views/Signup.vue';
@@ -42,8 +42,8 @@ export default new Router({
           component: UserProfileUpdate,
         },
         {
-          path: 'users/overwork',
-          component: UsersOverwork,
+          path: 'overworks',
+          component: OverworkIndexPage,
         },
         {
           path: 'shift/new',

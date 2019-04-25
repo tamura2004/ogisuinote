@@ -49,9 +49,9 @@ export default class TimeMeasurable extends Vue {
 
   private get lasttime(): string {
     if (!!this.shift) {
-        return this.toTime(this.shift.startTime + (8.5 + this.overwork) * 60);
+      return this.toTime(this.shift.startTime + (8.5 + this.overwork) * 60);
     } else {
-      return '17時10分';
+      return this.toTime(17 * 60 + 10 + this.overwork * 60);
     }
   }
 }

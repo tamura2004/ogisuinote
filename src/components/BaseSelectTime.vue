@@ -12,7 +12,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import { TIMES } from '@/models/Times';
 
 @Component
-export default class TaskTimeSelect extends Vue {
+export default class BaseSelectTime extends Vue {
   @Prop() private value!: number | null;
   @Prop() private disabled!: boolean;
 

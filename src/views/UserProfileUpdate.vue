@@ -3,7 +3,7 @@ v-container(v-if="user")
   base-menu-card(title="ユーザー情報更新")
     template(v-slot:form)
       v-form(v-model="valid")
-        base-username-text-field(v-model="name")
+        base-text-field-username(v-model="name")
     template(v-slot:action)
       v-btn(color="primary" @click="update" :disabled="!valid") 更新
 </template>

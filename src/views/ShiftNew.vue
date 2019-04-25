@@ -3,8 +3,8 @@ v-container(v-if="user")
   base-menu-card(title="シフト勤務申請")
     template(v-slot:form)
       v-form(v-model="valid")
-        base-start-time-select-field(v-model="startTime")
-        base-successor-select-field(v-model="successorId")
+        base-select-start-time(v-model="startTime")
+        base-select-successor(v-model="successorId")
     template(v-slot:action)
       v-btn(color="primary" @click="save" :disabled="!valid") 申請
 </template>

@@ -1,5 +1,5 @@
 <template lang="pug">
-v-btn(small dark outline color="indigo" @click="$emit('click')")
+.subheading.ma-1.pa-2
   slot
 </template>
 
@@ -7,9 +7,12 @@ v-btn(small dark outline color="indigo" @click="$emit('click')")
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class TaskDateButton extends Vue {
+export default class BaseRowCellBody extends Vue {
 }
 </script>
 
 <style lang="stylus" scoped>
+.subheading
+  border solid 1px lightgrey
+  height 48px
 </style>

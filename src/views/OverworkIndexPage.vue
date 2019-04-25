@@ -1,7 +1,7 @@
 <template lang="pug">
 div
-  user-title-row
-  user-body-row(
+  overwork-row-title
+  overwork-row-body(
     v-for="userId in userIds"
     :userId="userId"
     :key="userId"
@@ -12,7 +12,7 @@ div
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class UsersOverwork extends Vue {
+export default class OverworkIndexPage extends Vue {
   private get userIds() {
     return this.$store.getters.userIds;
   }

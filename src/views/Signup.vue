@@ -3,9 +3,9 @@ v-container
   base-menu-card(title="ID登録")
     template(v-slot:form)
       v-form(v-model="valid")
-        base-username-text-field(v-model="form.name")
-        base-email-text-field(v-model="form.email")
-        base-password-text-field(v-model="form.password")
+        base-text-field-username(v-model="form.name")
+        base-text-field-email(v-model="form.email")
+        base-text-field-password(v-model="form.password")
 
     template(v-slot:action)
       v-btn(color="primary" @click="signup" :disabled="!valid") ID登録
