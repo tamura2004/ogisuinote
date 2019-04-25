@@ -21,7 +21,13 @@ export const MENUES: Menu[] = [
   {
     path: '/app/overworks',
     icon: 'library_books',
-    label: '超過勤務予定',
+    label: '超過勤務',
+    logout: false,
+  },
+  {
+    path: '/app/shifts',
+    icon: 'library_books',
+    label: 'シフト勤務',
     logout: false,
   },
   {

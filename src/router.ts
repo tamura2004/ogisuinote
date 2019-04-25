@@ -6,6 +6,7 @@ import TaskIndex from '@/views/TaskIndex.vue';
 import UserTasks from '@/views/UserTasks.vue';
 import UsersTasks from '@/views/UsersTasks.vue';
 import OverworkIndexPage from '@/views/OverworkIndexPage.vue';
+import ShiftIndexPage from '@/views/ShiftIndexPage.vue';
 
 import Signin from '@/views/Signin.vue';
 import Signup from '@/views/Signup.vue';
@@ -48,6 +49,10 @@ export default new Router({
         {
           path: 'shift/new',
           component: ShiftNew,
+        },
+        {
+          path: 'shifts',
+          component: ShiftIndexPage,
         },
       ],
     },

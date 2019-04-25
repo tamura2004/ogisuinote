@@ -1,7 +1,8 @@
 <template lang="pug">
   v-layout(row align-center)
-    v-flex(xs3): slot(name="name")
-    v-flex(xs8): slot(name="shift")
+    v-flex(xs2): slot(name="name")
+    v-flex(xs2): slot(name="successor")
+    v-flex(xs7): slot(name="shift")
     v-flex(xs1): slot(name="permit")
 </template>
 
