@@ -1,7 +1,7 @@
 <template lang="pug">
   v-flex(xs4)
     v-layout(row wrap)
-      v-flex.text-xs-center(xs2 v-for="i in 6") {{ Number(start) + i }}
+      v-flex.text-xs-center(xs2 v-for="i in 6" :key="i") {{ Number(start) + i }}
 </template>
 
 <script lang="ts">
@@ -10,7 +10,7 @@ import moment from 'moment';
 
 @Component
 export default class ShiftRowTitleShiftSixhour extends Vue {
-  @Prop() start!: number;
+  @Prop() private start!: number;
 }
 </script>
 
