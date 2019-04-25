@@ -29,7 +29,6 @@ type validateFunc = Array<(v: string) => boolean | string>;
 })
 export default class Signup extends Vue {
   private form = User.form();
-  private password: string = '';
   private valid: boolean = false;
 
   private rules: validateFunc = [

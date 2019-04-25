@@ -118,10 +118,10 @@ export default new Vuex.Store({
       );
       commit(SET_USER, { user: null });
     },
-    async [ACTION.SIGNUP]({ dispatch }, { form, password }) {
+    async [ACTION.SIGNUP]({ dispatch }, { form }) {
       const { user } = await AUTH.createUserWithEmailAndPassword(
         form.email,
-        password,
+        form.password,
       );
       if (user === null) {
         alert('fail to create user');
