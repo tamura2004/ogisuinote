@@ -22,3 +22,6 @@ export const TOMORROW = 'TOMORROW';
 // user collection
 export const NEW_USER = 'NEW_USER';
 export const UPDATE_USER = 'UPDATE_USER';
+
+// shift work time
+export const CREATE_SHIFT = 'CREATE_SHIFT';

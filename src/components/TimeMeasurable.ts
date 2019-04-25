@@ -28,12 +28,30 @@ export default class TimeMeasurable extends Vue {
     return this.plan < 7.5 ? 0 : this.plan - 7.5;
   }
 
-  private get lasttime(): string {
+  private get shift() {
+    return this.$store.getters.shift(this.userId, this.date);
+  }
+
+  private toTime(minute: number): string {
     return moment()
       .startOf('day')
-      .add(17, 'hour')
-      .add(10, 'minute')
-      .add(this.overwork, 'hour')
+      .add(minute, 'minute')
       .format('H時mm分');
+  }
+
+  private get startTime(): string {
+    if (!!this.shift) {
+        return this.toTime(this.shift.startTime);
+    } else {
+      return '8時40分';
+    }
+  }
+
+  private get lasttime(): string {
+    if (!!this.shift) {
+        return this.toTime(this.shift.startTime + (8.5 + this.overwork) * 60);
+    } else {
+      return '17時10分';
+    }
   }
 }

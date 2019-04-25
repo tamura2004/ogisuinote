@@ -9,6 +9,7 @@ import _ from 'lodash';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import User from './models/User';
+import Shift from './models/Shift';
 
 const AUTH = firebase.auth();
 AUTH.languageCode = 'ja';
@@ -54,6 +55,11 @@ export default new Vuex.Store({
     },
     serverUrl(state, getters) {
       return getters.config && getters.config.serverUrl;
+    },
+    shift(state) {
+      return (userId: string, date: number) =>
+        [...state.shifts.values()]
+          .find((shift) => shift.userId === userId && shift.date === date);
     },
   },
   mutations: {
@@ -156,6 +162,9 @@ export default new Vuex.Store({
     },
     async [ACTION.PASSWORD_RESET]({}, { email }) {
       AUTH.sendPasswordResetEmail(email);
+    },
+    async [ACTION.CREATE_SHIFT]({ dispatch }, { userId, successorId, startTime, date }) {
+      await dispatch(ACTION.CREATE, new Shift({ userId, successorId, startTime, date }));
     },
   },
 });

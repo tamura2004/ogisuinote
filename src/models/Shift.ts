@@ -3,13 +3,15 @@ export default class Shift {
 
   public static valid(init: any): init is Shift {
     return typeof init.userId === 'string' &&
+      typeof init.successorId === 'string' &&
       typeof init.date === 'number' &&
-      typeof init.time === 'number';
+      typeof init.startTime === 'number';
   }
 
   public userId!: string;
+  public successorId!: string;
   public date!: number; // unix milliseconds
-  public time!: number; // start time of work by minute ex) 8:40 -> 520 (min)
+  public startTime!: number; // start time of work by minute ex) 8:40 -> 520 (min)
 
   constructor(init: any) {
     if (Shift.valid(init)) {

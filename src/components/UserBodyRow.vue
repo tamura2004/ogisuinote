@@ -3,6 +3,7 @@ user-row-layout
   template(v-slot:name): task-row-cell
     router-link(:to="`/app/user/${userId}/tasks`") {{ userName }}
   template(v-slot:plan): task-row-cell {{ plan | toTime }}
+  template(v-slot:starttime): task-row-cell {{ startTime }}
   template(v-slot:lasttime): task-row-cell {{ lasttime }}
   template(v-slot:overwork): task-row-cell {{ overwork | toTime }}
   template(v-slot:permit): task-row-cell

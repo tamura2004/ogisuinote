@@ -7,6 +7,7 @@
     :items="items"
     :value="value"
     :disabled="disabled"
+    :label="label"
     v-on="$listeners"
   )
 </template>
@@ -19,6 +20,7 @@ export default class BaseSelect extends Vue {
   @Prop() private value!: any;
   @Prop() private items!: number[];
   @Prop() private disabled!: boolean;
+  @Prop() private label!: string;
 }
 </script>
 

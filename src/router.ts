@@ -12,6 +12,8 @@ import Signup from '@/views/Signup.vue';
 import ResetPassword from '@/views/ResetPassword.vue';
 import UserProfileUpdate from '@/views/UserProfileUpdate.vue';
 
+import ShiftNew from '@/views/ShiftNew.vue';
+
 Vue.use(Router);
 
 export default new Router({
@@ -42,6 +44,10 @@ export default new Router({
         {
           path: 'users/overwork',
           component: UsersOverwork,
+        },
+        {
+          path: 'shift/new',
+          component: ShiftNew,
         },
       ],
     },
