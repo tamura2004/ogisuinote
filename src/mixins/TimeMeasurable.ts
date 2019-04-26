@@ -6,6 +6,10 @@ import moment from 'moment';
 export default class TimeMeasurable extends Vue {
   @Prop() private userId!: string;
 
+  private get owner() {
+    return this.userId === this.$store.getters.userId;
+  }
+
   private get userName() {
     return this.$store.getters.userName(this.userId);
   }

@@ -43,7 +43,7 @@ export default class Signup extends Vue {
 
     this.$store.dispatch(
       ACTION.WAIT,
-      async () => this.$store.dispatch(ACTION.SIGNUP, this),
+      async () => this.$store.dispatch(ACTION.SIGNUP, this.form),
     );
     this.$router.push('/');
   }

@@ -1,6 +1,14 @@
 <template lang="pug">
 v-container(fluid)
-  task-layout(:userId="userId")
+  the-user-headline(:userId="userId")
+  task-row-title
+  task-row-edit(
+    v-for="[key, task] in tasks"
+    :key="key"
+    :taskId="key"
+    :userId="userId"
+    :date="date"
+  )
   task-row-new(:date="date" :userId="userId")
 </template>
 

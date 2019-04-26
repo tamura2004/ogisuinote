@@ -118,26 +118,21 @@ export default new Vuex.Store({
       );
       commit(SET_USER, { user: null });
     },
-    async [ACTION.SIGNUP]({ dispatch }, { form }) {
-      const { user } = await AUTH.createUserWithEmailAndPassword(
-        form.email,
-        form.password,
-      );
+    async [ACTION.SIGNUP]({ dispatch }, { email, password, name }) {
+      const { user } = await AUTH.createUserWithEmailAndPassword(email, password);
       if (user === null) {
         alert('fail to create user');
         return;
       }
-      await dispatch(ACTION.PROFILE_UPDATE, { user, form });
-      await dispatch(ACTION.NEW_USER, { id: user.uid, form });
+      await dispatch(ACTION.PROFILE_UPDATE, { user, name });
+      const id = user.uid;
+      await dispatch(ACTION.NEW_USER, { id, name, email });
     },
     async [ACTION.PROFILE_UPDATE]({}, { user, name }) {
       user.updateProfile({ displayName: name });
     },
-    async [ACTION.NEW_USER]({ dispatch }, { id, form }) {
-      const payload = new User({
-        ...form,
-        email: form.email,
-      });
+    async [ACTION.NEW_USER]({ dispatch }, { id, name, email }) {
+      const payload = new User({ name, email });
       await dispatch(ACTION.NEW, { id, payload });
     },
     async [ACTION.UPDATE_USER]({ dispatch, state }, { userId, name }) {
@@ -157,7 +152,9 @@ export default new Vuex.Store({
         return;
       }
       if (!getters.user(user.uid)) {
-        dispatch(ACTION.NEW_USER, { id: user.uid, form: { email: user.email, name: user.displayName }});
+        const id = user.uid;
+        const name = user.displayName;
+        dispatch(ACTION.NEW_USER, { id, name, email });
       }
     },
     async [ACTION.PASSWORD_RESET]({}, { email }) {
