@@ -7,7 +7,7 @@ export default class Task {
       date: null,
       priority: '中',
       name: null,
-      plan: null,
+      plan: 0,
       actual: null,
       memo: null,
     };

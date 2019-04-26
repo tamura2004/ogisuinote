@@ -2,7 +2,7 @@
 div
   the-user-headline(:userId="userId")
   task-row-title
-  task-row-body(
+  task-row-edit(
     v-for="[key, task] in tasks"
     :key="key"
     :taskId="key"

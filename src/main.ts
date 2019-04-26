@@ -45,13 +45,13 @@ requireComponent.keys().forEach((fileName: any) => {
 Vue.filter('toTime', toTime);
 Vue.filter('toDate', toDate);
 
-router.beforeEach((to, from, next) => {
-  if (store.state.user || to.matched.some((record) => record.meta.guestAccess)) {
-    next();
-  } else {
-    next({ path: '/' });
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   if (store.state.user || to.matched.some((record) => record.meta.guestAccess)) {
+//     next();
+//   } else {
+//     next({ path: '/' });
+//   }
+// });
 
 new Vue({
   router,

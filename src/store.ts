@@ -166,5 +166,24 @@ export default new Vuex.Store({
     async [ACTION.CREATE_SHIFT]({ dispatch }, { userId, successorId, startTime, date }) {
       await dispatch(ACTION.CREATE, new Shift({ userId, successorId, startTime, date }));
     },
+    [ACTION.UPDATE_TASK]({ dispatch }, { taskId, updates }) {
+      dispatch(ACTION.UPDATE, {
+        collectionName: 'tasks',
+        id: taskId,
+        updates,
+      });
+    },
+    [ACTION.UPDATE_TASK_PRIORITY]({ dispatch }, { priority, taskId }) {
+      dispatch(ACTION.UPDATE_TASK, { taskId, updates: { priority } });
+    },
+    [ACTION.UPDATE_TASK_PLAN]({ dispatch }, { plan, taskId }) {
+      dispatch(ACTION.UPDATE_TASK, { taskId, updates: { plan } });
+    },
+    [ACTION.UPDATE_TASK_ACTUAL]({ dispatch }, { actual, taskId }) {
+      dispatch(ACTION.UPDATE_TASK, { taskId, updates: { actual } });
+    },
+    [ACTION.UPDATE_TASK_MEMO]({ dispatch }, { memo, taskId }) {
+      dispatch(ACTION.UPDATE_TASK, { taskId, updates: { memo } });
+    },
   },
 });

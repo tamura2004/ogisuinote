@@ -3,6 +3,7 @@
     solo
     flat
     hide-details
+    autofocus
     height="32px"
     :items="items"
     :value="value"
