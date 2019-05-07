@@ -32,6 +32,10 @@ export default class TimeMeasurable extends Vue {
     return this.plan < 7.5 ? 0 : this.plan - 7.5;
   }
 
+  private get shiftId() {
+    return this.$store.getters.hasShift(this.userId, this.date);
+  }
+
   private get shift() {
     return this.$store.getters.shift(this.userId, this.date);
   }

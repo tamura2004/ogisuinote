@@ -6,7 +6,9 @@ overwork-row-layout
   template(v-slot:starttime): base-row-cell-body {{ startTime }}
   template(v-slot:lasttime): base-row-cell-body {{ lasttime }}
   template(v-slot:overwork): base-row-cell-body {{ overwork | toTime }}
-  template(v-slot:permit): base-row-cell-body
+  template(v-slot:permit)
+    overwork-allow-btn(v-if="overwork > 0" :userId="userId" :date="date")
+    base-row-cell-no-data(v-else)
 </template>
 
 <script lang="ts">

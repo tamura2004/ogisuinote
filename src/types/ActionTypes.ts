@@ -25,7 +25,12 @@ export const UPDATE_USER = 'UPDATE_USER';
 
 // shift work time
 export const CREATE_SHIFT = 'CREATE_SHIFT';
+export const ALLOW_SHIFT = 'ALLOW_SHIFT';
 
+// overwork
+export const ALLOW_OVERWORK = 'ALLOW_OVERWORK';
+
+// task
 export const UPDATE_TASK = 'UPDATE_TASK';
 export const UPDATE_TASK_PRIORITY = 'UPDATE_TASK_PRIORITY';
 export const UPDATE_TASK_PLAN = 'UPDATE_TASK_PLAN';

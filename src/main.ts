@@ -6,6 +6,7 @@ import store from './store';
 import User from '@/models/User';
 import Task from '@/models/Task';
 import Shift from '@/models/Shift';
+import Overwork from '@/models/Overwork';
 import { listen, listenUser } from '@/plugins/firebase';
 import uppperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
@@ -17,6 +18,7 @@ Vue.config.productionTip = false;
 listen(store, User);
 listen(store, Task);
 listen(store, Shift);
+listen(store, Overwork);
 
 listenUser(store); // listen current user
 

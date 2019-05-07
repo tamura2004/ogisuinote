@@ -5,6 +5,7 @@ export default class User {
     return {
       name: null,
       email: null,
+      manager: false,
     };
   }
 
@@ -12,11 +13,13 @@ export default class User {
     return typeof init.name === 'string' &&
       init.name.length > 0 &&
       typeof init.email === 'string' &&
-      init.email.length > 0;
+      init.email.length > 0 &&
+      typeof init.manager === 'boolean';
   }
 
   public name!: string;
   public email!: string;
+  public manager!: boolean;
 
   constructor(init: any) {
     if (User.valid(init)) {

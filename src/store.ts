@@ -10,6 +10,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import User from './models/User';
 import Shift from './models/Shift';
+import Overwork from './models/Overwork';
 
 const AUTH = firebase.auth();
 AUTH.languageCode = 'ja';
@@ -44,6 +45,9 @@ export default new Vuex.Store({
     userId(state) {
       return state.user && state.user.uid;
     },
+    currentUser(state, getters) {
+      return getters.user(getters.userId);
+    },
     userIds(state) {
       return [...state.users.keys()];
     },
@@ -56,10 +60,29 @@ export default new Vuex.Store({
     serverUrl(state, getters) {
       return getters.config && getters.config.serverUrl;
     },
-    shift(state) {
+    hasShift(state) {
       return (userId: string, date: number) =>
-        [...state.shifts.values()]
-          .find((shift) => shift.userId === userId && shift.date === date);
+        [...state.shifts].find(([id, shift]) => shift.userId === userId && shift.date === date);
+    },
+    shiftId(state, getters) {
+      return (userId: string, date: number) =>
+      getters.hasShift(userId, date) && getters.hasShift(userId, date)[0];
+    },
+    shift(state, getters) {
+      return (userId: string, date: number) =>
+      getters.hasShift(userId, date) && getters.hasShift(userId, date)[1];
+    },
+    hasOverwork(state) {
+      return (userId: string, date: number) =>
+        [...state.overworks].find(([id, overwork]) => overwork.userId === userId && overwork.date === date);
+    },
+    overworkId(state, getters) {
+      return (userId: string, date: number) =>
+        getters.hasOverwork(userId, date) && getters.hasOverwork(userId, date)[0];
+    },
+    overwork(state, getters) {
+      return (userId: string, date: number) =>
+        getters.hasOverwork(userId, date) && getters.hasOverwork(userId, date)[1];
     },
   },
   mutations: {
@@ -161,7 +184,19 @@ export default new Vuex.Store({
       AUTH.sendPasswordResetEmail(email);
     },
     async [ACTION.CREATE_SHIFT]({ dispatch }, { userId, successorId, startTime, date }) {
-      await dispatch(ACTION.CREATE, new Shift({ userId, successorId, startTime, date }));
+      await dispatch(ACTION.CREATE, new Shift({ userId, successorId, startTime, date, managerId: null }));
+    },
+    async [ACTION.ALLOW_SHIFT]({ dispatch }, { shiftId, managerId }) {
+      await dispatch(ACTION.UPDATE, {
+        collectionName: 'shifts',
+        id: shiftId,
+        updates: {
+          managerId,
+        },
+      });
+    },
+    async [ACTION.ALLOW_OVERWORK]({ dispatch }, { userId, date, managerId }) {
+      await dispatch(ACTION.CREATE, new Overwork({ userId, date, managerId }));
     },
     [ACTION.UPDATE_TASK]({ dispatch }, { taskId, updates }) {
       dispatch(ACTION.UPDATE, {

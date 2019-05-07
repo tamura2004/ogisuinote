@@ -12,6 +12,7 @@ export default class Shift {
   public successorId!: string;
   public date!: number; // unix milliseconds
   public startTime!: number; // start time of work by minute ex) 8:40 -> 520 (min)
+  public managerId!: string | null;
 
   constructor(init: any) {
     if (Shift.valid(init)) {
