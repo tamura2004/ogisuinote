@@ -6,6 +6,7 @@ v-container(fluid)
     v-for="[key, task] in tasks"
     :key="key"
     :taskId="key"
+    :task="task"
     :userId="userId"
     :date="date"
   )
@@ -23,6 +24,10 @@ export default class TaskIndex extends Vue {
 
   private get userId(): string {
     return this.$store.getters.userId;
+  }
+
+  private get tasks() {
+    return this.$store.getters.tasks(this.userId, this.date);
   }
 }
 </script>
