@@ -18,6 +18,7 @@ export default class Task {
       typeof init.date === 'number' &&
       typeof init.priority === 'string' &&
       typeof init.name === 'string' &&
+      init.name !== '' &&
       typeof init.plan === 'number' &&
       (typeof init.actual === 'number' || init.actual === null) &&
       (typeof init.memo === 'string' || init.memo === null);
