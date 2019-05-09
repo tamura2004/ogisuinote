@@ -141,7 +141,7 @@ export default new Vuex.Store({
       );
       commit(SET_USER, { user: null });
     },
-    async [ACTION.SIGNUP]({ dispatch }, { email, password, name }) {
+    async [ACTION.SIGNUP]({ dispatch }, { email, password, name, manager }) {
       const { user } = await AUTH.createUserWithEmailAndPassword(email, password);
       if (user === null) {
         alert('fail to create user');
@@ -149,13 +149,13 @@ export default new Vuex.Store({
       }
       await dispatch(ACTION.PROFILE_UPDATE, { user, name });
       const id = user.uid;
-      await dispatch(ACTION.NEW_USER, { id, name, email });
+      await dispatch(ACTION.NEW_USER, { id, name, email, manager });
     },
     async [ACTION.PROFILE_UPDATE]({}, { user, name }) {
       user.updateProfile({ displayName: name });
     },
-    async [ACTION.NEW_USER]({ dispatch }, { id, name, email }) {
-      const payload = new User({ name, email });
+    async [ACTION.NEW_USER]({ dispatch }, { id, name, email, manager }) {
+      const payload = new User({ name, email, manager });
       await dispatch(ACTION.NEW, { id, payload });
     },
     async [ACTION.UPDATE_USER]({ dispatch, state }, { userId, name }) {

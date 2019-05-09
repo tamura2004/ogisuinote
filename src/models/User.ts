@@ -1,14 +1,6 @@
 export default class User {
   public static collectionName = 'users';
 
-  public static form(): Form<User> {
-    return {
-      name: null,
-      email: null,
-      manager: false,
-    };
-  }
-
   public static valid(init: any): init is User {
     return typeof init.name === 'string' &&
       init.name.length > 0 &&

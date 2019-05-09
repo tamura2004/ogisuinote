@@ -3,9 +3,9 @@ v-container
   base-menu-card(title="ID登録")
     template(v-slot:form)
       v-form(v-model="valid")
-        base-text-field-username(v-model="form.name")
-        base-text-field-email(v-model="form.email")
-        base-text-field-password(v-model="form.password")
+        base-text-field-username(v-model="name")
+        base-text-field-email(v-model="email")
+        base-text-field-password(v-model="password")
 
     template(v-slot:action)
       v-btn(color="primary" @click="signup" :disabled="!valid") ID登録
@@ -28,7 +28,11 @@ type validateFunc = Array<(v: string) => boolean | string>;
   },
 })
 export default class Signup extends Vue {
-  private form = User.form();
+  private name = null;
+  private email = null;
+  private password = null;
+  private manager = false;
+
   private valid: boolean = false;
 
   private rules: validateFunc = [
@@ -36,14 +40,9 @@ export default class Signup extends Vue {
   ];
 
   private signup() {
-    if (!User.valid(this.form)) {
-      alert(`signup: bad user data: ${JSON.stringify(this.form)}`);
-      return;
-    }
-
     this.$store.dispatch(
       ACTION.WAIT,
-      async () => this.$store.dispatch(ACTION.SIGNUP, this.form),
+      async () => this.$store.dispatch(ACTION.SIGNUP, this),
     );
     this.$router.push('/');
   }
