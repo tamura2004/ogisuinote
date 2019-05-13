@@ -1,14 +1,9 @@
 <template lang="pug">
-span
-  template(v-if="!allowed")
-    v-btn.ma-1.pa-2(@click="allow") 許可
-  template(v-else)
-    base-row-cell-body {{ managerName }}
+  v-btn.ma-1.pa-2(@click="allow") 許可
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import Task from '@/models/Task';
 import * as ACTION from '@/types/ActionTypes';
 
 @Component
@@ -20,20 +15,8 @@ export default class ShiftAllowBtn extends Vue {
     return this.$store.getters.shiftId(this.userId, this.date);
   }
 
-  private get shift() {
-    return this.$store.getters.shift(this.userId, this.date);
-  }
-
-  private get allowed() {
-    return this.shift && this.shift.managerId;
-  }
-
-  private get managerId() {
+private get managerId() {
     return this.$store.getters.userId;
-  }
-
-  private get managerName() {
-    return this.shift && this.$store.getters.userName(this.shift.managerId);
   }
 
   private async allow() {

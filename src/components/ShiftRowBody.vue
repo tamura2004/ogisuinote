@@ -33,8 +33,14 @@ shift-row-layout
             y2="5"
         )
   template(v-slot:permit)
-    shift-allow-btn(v-if="shift && isManager" :userId="userId" :date="date")
-    base-row-cell-no-data(v-else)
+    shift-allow-layout(:userId="userId" :date="date")
+      template(v-slot:allowed)
+        base-row-cell-body.indigo.white--text
+          shift-manager-name(:userId="userId" :date="date")
+      template(v-slot:allow)
+        shift-allow-btn(:userId="userId" :date="date")
+      template(v-slot:none)
+        base-row-cell-no-data
 </template>
 
 <script lang="ts">
@@ -43,9 +49,6 @@ import TimeMeasurable from '@/mixins/TimeMeasurable';
 
 @Component
 export default class ShiftRowBody extends Mixins(TimeMeasurable) {
-  private get isManager() {
-    return this.$store.getters.currentUser && this.$store.getters.currentUser.manager;
-  }
 }
 
 </script>
