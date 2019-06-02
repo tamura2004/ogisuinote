@@ -41,8 +41,10 @@ export function listen<T>(
   const name = fn.collectionName;
   db.collection(name).onSnapshot((query) => {
     const collection = new Map<string, T>();
-    query.forEach((doc: any) => {
-      collection.set(doc.id, new fn({...doc.data()}));
+    query.docChanges().forEach((change: any) => {
+      if (change.type === 'added' || change.type === 'modified') {
+        collection.set(change.doc.id, new fn({...change.doc.data()}));
+      }
     });
     store.commit({
       type: SET,
