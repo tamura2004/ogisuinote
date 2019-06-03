@@ -4,8 +4,8 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import { Store } from 'vuex';
 import { SET, SET_USER } from '@/types/MutationTypes';
-
 import State from '@/models/State';
+import _ from 'lodash';
 
 const firebaseApp = firebase.initializeApp({
   apiKey: 'AIzaSyBS7SMT8WMvzVCVrlNDuIPbAarPMB8FiG4',
@@ -20,7 +20,7 @@ export const db = firebaseApp.firestore();
 
 export function listenUser(store: Store<State>) {
   firebase.auth().onAuthStateChanged((user) => {
-    alert(JSON.stringify(user));
+    // alert(JSON.stringify(user));
     if (user) {
       store.commit({
         type: SET_USER,
@@ -44,7 +44,7 @@ export function listen<T>(
   const ref = db.collection(name);
   const collection = name === 'users' ? ref : ref.orderBy('date', 'desc').limit(200);
   collection.onSnapshot((query) => {
-    const map = getMap();
+    const map = _.cloneDeep(getMap());
     query.docChanges().forEach((change: any) => {
       if (change.type === 'added' || change.type === 'modified') {
         map.set(change.doc.id, new fn({...change.doc.data()}));

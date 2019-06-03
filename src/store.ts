@@ -179,7 +179,7 @@ export default new Vuex.Store({
       if (user === null) {
         return;
       }
-      alert('SIGNIN:' + JSON.stringify(user));
+      // alert('SIGNIN:' + JSON.stringify(user));
       if (!getters.user(user.uid)) {
         const id = user.uid;
         const name = user.displayName;
