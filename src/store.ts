@@ -86,11 +86,16 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    [SET](state, { name, collection }) {
-      Vue.set(state, name, collection);
+    [SET](state, { name, map }) {
+      Vue.set(state, name, map);
     },
-    [SET_USER](state, payload) {
-      state.user = payload.user;
+    [SET_USER](state, { user }) {
+      if (user === null) {
+        state.user = null;
+      } else {
+        const {uid, displayName, email} = user;
+        state.user = {uid, displayName, email};
+      }
     },
     [SET_WAIT](state, payload) {
       state.wait = payload;
@@ -174,6 +179,7 @@ export default new Vuex.Store({
       if (user === null) {
         return;
       }
+      alert('SIGNIN:' + JSON.stringify(user));
       if (!getters.user(user.uid)) {
         const id = user.uid;
         const name = user.displayName;

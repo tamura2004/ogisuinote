@@ -20,6 +20,7 @@ export const db = firebaseApp.firestore();
 
 export function listenUser(store: Store<State>) {
   firebase.auth().onAuthStateChanged((user) => {
+    alert(JSON.stringify(user));
     if (user) {
       store.commit({
         type: SET_USER,
@@ -37,19 +38,22 @@ export function listenUser(store: Store<State>) {
 export function listen<T>(
   store: Store<State>,
   fn: (new(init: any) => T) & { collectionName: string },
+  getMap: () => Map<string, T>,
 ) {
   const name = fn.collectionName;
-  db.collection(name).onSnapshot((query) => {
-    const collection = new Map<string, T>();
+  const ref = db.collection(name);
+  const collection = name === 'users' ? ref : ref.orderBy('date', 'desc').limit(200);
+  collection.onSnapshot((query) => {
+    const map = getMap();
     query.docChanges().forEach((change: any) => {
       if (change.type === 'added' || change.type === 'modified') {
-        collection.set(change.doc.id, new fn({...change.doc.data()}));
+        map.set(change.doc.id, new fn({...change.doc.data()}));
       }
     });
     store.commit({
       type: SET,
       name,
-      collection,
+      map,
     });
   });
 }

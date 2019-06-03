@@ -11,6 +11,9 @@ export default class TheNavigationDrawerToolbar extends Vue {
   private get userName() {
     return this.$store.getters.userName(this.$store.getters.userId);
   }
+  private get userId() {
+    return this.$store.getters.userId;
+  }
 }
 </script>
 

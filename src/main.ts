@@ -15,10 +15,10 @@ import toTime from '@/filters/ToTime';
 
 Vue.config.productionTip = false;
 
-listen(store, User);
-listen(store, Task);
-listen(store, Shift);
-listen(store, Overwork);
+listen(store, User, () => store.state.users);
+listen(store, Task, () => store.state.tasks);
+listen(store, Shift, () => store.state.shifts);
+listen(store, Overwork, () => store.state.overworks);
 
 listenUser(store); // listen current user
 
