@@ -148,7 +148,7 @@ export default new Vuex.Store({
     },
     async [ACTION.SIGNUP]({ dispatch }, { email, password, name, manager }) {
       const { user } = await AUTH.createUserWithEmailAndPassword(email, password);
-      if (user === null) {
+      if (user === null || !user.uid) {
         alert('fail to create user');
         return;
       }
@@ -174,17 +174,8 @@ export default new Vuex.Store({
         name,
       });
     },
-    async [ACTION.SIGNIN]({ dispatch, getters }, { email, password }) {
-      const { user } = await AUTH.signInWithEmailAndPassword(email, password);
-      if (user === null) {
-        return;
-      }
-      // alert('SIGNIN:' + JSON.stringify(user));
-      if (!getters.user(user.uid)) {
-        const id = user.uid;
-        const name = user.displayName;
-        dispatch(ACTION.NEW_USER, { id, name, email });
-      }
+    async [ACTION.SIGNIN]({ dispatch }, { email, password }) {
+      await AUTH.signInWithEmailAndPassword(email, password);
     },
     async [ACTION.PASSWORD_RESET]({}, { email }) {
       AUTH.sendPasswordResetEmail(email);

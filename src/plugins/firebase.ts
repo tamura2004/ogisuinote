@@ -21,7 +21,6 @@ export const db = firebaseApp.firestore();
 
 export function listenUser(store: Store<State>) {
   firebase.auth().onAuthStateChanged((user) => {
-    // alert(JSON.stringify(user));
     if (user) {
       store.commit({
         type: SET_USER,
