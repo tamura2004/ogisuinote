@@ -15,7 +15,7 @@ import { mapGetters } from 'vuex';
   computed: {
     ...mapGetters([
       'date',
-      'shift'
+      'shift',
     ]),
   },
 })

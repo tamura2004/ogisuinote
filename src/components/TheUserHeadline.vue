@@ -6,7 +6,7 @@ the-user-headline-layout
     v-menu
       template(v-slot:activator="{ on }")
         v-btn(flat :disabled="!owner(userId)" @click="go").headline 始業{{ startTime(userId, date) }} 〜 終業{{ lastTime(userId, date) }}
-          span(v-if="overworkTime(userId) > 0") (残業{{ overworkTime(userId, date) | toTime }})
+          span(v-if="overworkTime(userId, date) > 0") (残業{{ overworkTime(userId, date) | toTime }})
 </template>
 
 <script lang="ts">
