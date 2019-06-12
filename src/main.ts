@@ -4,9 +4,6 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import User from '@/models/User';
-import Task from '@/models/Task';
-import Shift from '@/models/Shift';
-import Overwork from '@/models/Overwork';
 import { listen, listenUser } from '@/plugins/firebase';
 import uppperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
@@ -15,11 +12,7 @@ import toTime from '@/filters/ToTime';
 
 Vue.config.productionTip = false;
 
-listen(store, User, () => store.state.users);
-listen(store, Task, () => store.state.tasks);
-listen(store, Shift, () => store.state.shifts);
-listen(store, Overwork, () => store.state.overworks);
-
+listen(store, User);
 listenUser(store); // listen current user
 
 const requireComponent = require.context(

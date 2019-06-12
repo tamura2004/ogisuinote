@@ -13,11 +13,18 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Mixins } from 'vue-property-decorator';
-import TimeMeasurable from '@/mixins/TimeMeasurable';
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import { mapGetters } from 'vuex';
 
-@Component
-export default class OverworkAllowLayout extends Mixins(TimeMeasurable) {
+@Component({
+  computed: {
+    ...mapGetters([
+      'date',
+    ]),
+  },
+})
+export default class OverworkAllowLayout extends Vue {
+  @Prop() private userId!: string;
 }
 
 </script>

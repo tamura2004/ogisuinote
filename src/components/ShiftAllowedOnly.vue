@@ -1,17 +1,25 @@
 <template lang="pug">
 span
-  template(v-if="shift.managerId")
+  template(v-if="shift(userId, date).managerId")
     slot
   template(v-else)
     slot(name="else")
 </template>
 
 <script lang="ts">
-import { Component, Vue, Mixins } from 'vue-property-decorator';
-import TimeMeasurable from '@/mixins/TimeMeasurable';
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import { mapGetters } from 'vuex';
 
-@Component
-export default class ShiftAllowedOnly extends Mixins(TimeMeasurable) {
+@Component({
+  computed: {
+    ...mapGetters([
+      'date',
+      'shift',
+    ]),
+  },
+})
+export default class ShiftAllowedOnly extends Vue {
+  @Prop() private userId!: string;
 }
 </script>
 

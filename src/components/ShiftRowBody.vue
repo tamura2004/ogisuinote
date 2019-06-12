@@ -1,7 +1,7 @@
 <template lang="pug">
 shift-row-layout
-  template(v-slot:name): base-row-cell-body {{ userName }}
-  template(v-slot:successor): base-row-cell-body {{ successorName }}
+  template(v-slot:name): base-row-cell-body {{ userName(userId) }}
+  template(v-slot:successor): base-row-cell-body {{ successorName(userId, date) }}
   template(v-slot:shift)
     base-row-cell-body
       svg(
@@ -20,16 +20,16 @@ shift-row-layout
         )
         g(fill="none" stroke="green" stroke-width="3")
           line(
-            :x1="startTimeByMinute"
+            :x1="startTimeByMinute(userId, date)"
             y1="5"
-            :x2="onTimeByMinute"
+            :x2="onTimeByMinute(userId, date)"
             y2="5"
         )
         g(fill="none" stroke="red" stroke-width="3")
           line(
-            :x1="onTimeByMinute"
+            :x1="onTimeByMinute(userId, date)"
             y1="5"
-            :x2="lastTimeByMinute"
+            :x2="lastTimeByMinute(userId, date)"
             y2="5"
         )
   template(v-slot:permit)
@@ -44,11 +44,23 @@ shift-row-layout
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Mixins } from 'vue-property-decorator';
-import TimeMeasurable from '@/mixins/TimeMeasurable';
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import { mapGetters } from 'vuex';
 
-@Component
-export default class ShiftRowBody extends Mixins(TimeMeasurable) {
+@Component({
+  computed: {
+    ...mapGetters([
+      'userName',
+      'successorName',
+      'date',
+      'startTimeByMinute',
+      'onTimeByMinute',
+      'lastTimeByMinute',
+    ]),
+  },
+})
+export default class ShiftRowBody extends Vue {
+  @Prop() private userId!: string;
 }
 
 </script>

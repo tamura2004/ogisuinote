@@ -11,6 +11,8 @@ import 'firebase/auth';
 import User from './models/User';
 import Shift from './models/Shift';
 import Overwork from './models/Overwork';
+import { toTime } from '@/plugins/datetimeUtil';
+import Task from '@/models/Task';
 
 const AUTH = firebase.auth();
 AUTH.languageCode = 'ja';
@@ -84,6 +86,76 @@ export default new Vuex.Store({
       return (userId: string, date: number) =>
         getters.hasOverwork(userId, date) && getters.hasOverwork(userId, date)[1];
     },
+    plan(state, getters) {
+      return (userId: string, date: number) => {
+        const tasks: Array<[string, Task]> = getters.tasks(userId, date);
+        return tasks
+          .map(([, task]) => task.plan)
+          .reduce((a, plan) => a + plan, 0);
+      };
+    },
+    overworkTime(state, getters) {
+      return (userId: string, date: number) => {
+        const plan = getters.plan(userId, date);
+        return plan < 7.5 ? 0 : plan - 7.5;
+
+      };
+    },
+    lastTime(state, getters) {
+      return (userId: string, date: number) => {
+        const shift = getters.shift(userId, date);
+        const overworkTime = getters.overworkTime(userId, date);
+        if (!!shift) {
+          return toTime(shift.startTime + (8.5 + overworkTime) * 60);
+        } else {
+          return toTime(17 * 60 + 10 + overworkTime * 60);
+        }
+      };
+    },
+    onTimeByMinute(state, getters) {
+      return (userId: string, date: number) => {
+        const shift = getters.shift(userId, date);
+        return shift ? shift.startTime + 510 : 1030;
+      };
+    },
+    lastTimeByMinute(state, getters) {
+      return (userId: string, date: number) => {
+        const onTimeByMinute = getters.onTimeByMinute(userId, date);
+        const overworkTime = getters.overworkTime(userId, date);
+        return onTimeByMinute + overworkTime * 60;
+      };
+    },
+    startTime(state, getters) {
+      return (userId: string, date: number) => {
+        const shift = getters.shift(userId, date);
+        if (!!shift) {
+          return toTime(shift.startTime);
+        } else {
+          return '8時40分';
+        }
+      };
+    },
+    startTimeByMinute(state, getters) {
+      return (userId: string, date: number) => {
+        const shift = getters.shift(userId, date);
+        return shift ? shift.startTime : 520;
+      };
+    },
+    successorName(state, getters) {
+      return (userId: string, date: number) => {
+        const shift = getters.shift(userId, date);
+        if (!shift) {
+          return '-';
+        }
+        const successor = getters.user(shift.successorId);
+        return successor ? successor.name : '-';
+      };
+    },
+    owner(state, getters) {
+      return (userId: string) => {
+        return userId === getters.userId;
+      };
+    },
   },
   mutations: {
     [SET](state, { name, map }) {
@@ -105,6 +177,16 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    async [ACTION.LISTEN]({ commit }, { query, name, klass }) {
+      const unsubscribe = query.onSnapshot((queryRef: any) => {
+        const map = new Map();
+        queryRef.forEach((doc: any) => {
+          map.set(doc.id, new klass({...doc.data()}));
+        });
+        commit(SET, { name, map });
+      });
+      return unsubscribe;
+    },
     async [ACTION.CREATE]({}, payload) {
       const conn = db.collection(payload.constructor.collectionName);
       const ref: any = await conn.add({...payload});
@@ -130,14 +212,30 @@ export default new Vuex.Store({
         commit(SET_WAIT, false);
       }
     },
-    [ACTION.TODAY]({ commit }) {
-      commit(SET_DATE, moment().startOf('day').valueOf());
+    [ACTION.TODAY]({ dispatch }) {
+      const date = moment().startOf('day').valueOf();
+      dispatch(ACTION.SET_DATE, date);
     },
-    [ACTION.YESTERDAY]({ commit, state }) {
-      commit(SET_DATE, moment(state.date).subtract(1, 'days').valueOf());
+    [ACTION.YESTERDAY]({ dispatch, state }) {
+      const date = moment(state.date).subtract(1, 'days').valueOf();
+      dispatch(ACTION.SET_DATE, date);
     },
-    [ACTION.TOMORROW]({ commit, state }) {
-      commit(SET_DATE, moment(state.date).add(1, 'days').valueOf());
+    [ACTION.TOMORROW]({ dispatch, state }) {
+      const date = moment(state.date).add(1, 'days').valueOf();
+      dispatch(ACTION.SET_DATE, date);
+    },
+    [ACTION.SET_DATE]({ commit, dispatch }, date) {
+      commit(SET_DATE, date);
+      dispatch(ACTION.LISTEN, {
+        query: db.collection('overworks').where('date', '==', date),
+        name: 'overworks',
+        klass: Overwork,
+      });
+      dispatch(ACTION.LISTEN, {
+        query: db.collection('shift').where('date', '==', date),
+        name: 'shift',
+        klass: Shift,
+      });
     },
     async [ACTION.LOGOUT]({ commit, dispatch }) {
       await dispatch(

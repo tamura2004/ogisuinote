@@ -1,12 +1,9 @@
-import 'firebase/firestore';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import { Store } from 'vuex';
 import { SET, SET_USER } from '@/types/MutationTypes';
 import State from '@/models/State';
-import _ from 'lodash';
-import moment from 'moment';
 
 const firebaseApp = firebase.initializeApp({
   apiKey: 'AIzaSyBS7SMT8WMvzVCVrlNDuIPbAarPMB8FiG4',
@@ -38,18 +35,20 @@ export function listenUser(store: Store<State>) {
 export function listen<T>(
   store: Store<State>,
   fn: (new(init: any) => T) & { collectionName: string },
-  getMap: () => Map<string, T>,
+  date?: number,
+  keyName?: string,
+  key?: string,
 ) {
   const name = fn.collectionName;
-  const ref = db.collection(name);
-  const limit = moment().startOf('day').subtract(2, 'days').valueOf();
-  const collection = name === 'users' ? ref : ref.where('date', '>=', limit);
-  collection.onSnapshot((query) => {
-    const map = _.cloneDeep(getMap());
-    query.docChanges().forEach((change: any) => {
-      if (change.type === 'added' || change.type === 'modified') {
-        map.set(change.doc.id, new fn({...change.doc.data()}));
-      }
+  const dbRef = db.collection(name);
+  let query = date ? dbRef.where('date', '>=', date) : dbRef;
+  if (keyName && key) {
+    query = query.where(keyName, '==', key);
+  }
+  const unsubscribe = query.onSnapshot((queryRef: any) => {
+    const map = new Map<string, T>();
+    queryRef.forEach((doc: any) => {
+      map.set(doc.id, new fn({...doc.data()}));
     });
     store.commit({
       type: SET,
@@ -57,4 +56,5 @@ export function listen<T>(
       map,
     });
   });
+  return unsubscribe;
 }

@@ -1,11 +1,11 @@
 <template lang="pug">
 overwork-row-layout
   template(v-slot:name): base-row-cell-body
-    router-link(:to="`/app/user/${userId}/tasks`") {{ userName }}
-  template(v-slot:plan): base-row-cell-body {{ plan | toTime }}
-  template(v-slot:starttime): base-row-cell-body {{ startTime }}
-  template(v-slot:lasttime): base-row-cell-body {{ lasttime }}
-  template(v-slot:overwork): base-row-cell-body {{ overwork | toTime }}
+    router-link(:to="`/app/user/${userId}/tasks`") {{ userName(userId) }}
+  template(v-slot:plan): base-row-cell-body {{ plan(userId, date) | toTime }}
+  template(v-slot:starttime): base-row-cell-body {{ startTime(userId, date) }}
+  template(v-slot:lasttime): base-row-cell-body {{ lastTime(userId, date) }}
+  template(v-slot:overwork): base-row-cell-body {{ overworkTime(userId, date) | toTime }}
   template(v-slot:permit)
     overwork-allow-layout(:userId="userId" :date="date")
       template(v-slot:allowed)
@@ -18,11 +18,23 @@ overwork-row-layout
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Mixins } from 'vue-property-decorator';
-import TimeMeasurable from '@/mixins/TimeMeasurable';
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import { mapGetters } from 'vuex';
 
-@Component
-export default class OverworkBodyRow extends Mixins(TimeMeasurable) {
+@Component({
+  computed: {
+    ...mapGetters([
+      'userName',
+      'plan',
+      'startTime',
+      'lastTime',
+      'overworkTime',
+      'date',
+    ]),
+  },
+})
+export default class OverworkBodyRow extends Vue {
+  @Prop() private userId!: string;
 }
 </script>
 

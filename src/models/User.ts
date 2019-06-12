@@ -17,7 +17,7 @@ export default class User {
     if (User.valid(init)) {
       Object.assign(this, init);
     } else {
-      alert(`bad user init: ${JSON.stringify(init)}`);
+      // alert(`bad user init: ${JSON.stringify(init)}`);
     }
   }
 }

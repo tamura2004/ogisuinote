@@ -3,6 +3,7 @@ export const CREATE = 'CREATE'; // add firestore without id
 export const UPDATE = 'UPDATE';
 export const DELETE = 'DELETE';
 export const NEW = 'NEW'; // add firestore with id
+export const LISTEN = 'LISTEN';
 
 // show progress circle
 export const WAIT = 'WAIT';
@@ -18,6 +19,7 @@ export const PASSWORD_RESET = 'PASSWORD_RESET';
 export const TODAY = 'TODAY';
 export const YESTERDAY = 'YESTERDAY';
 export const TOMORROW = 'TOMORROW';
+export const SET_DATE = 'SET_DATE';
 
 // user collection
 export const NEW_USER = 'NEW_USER';

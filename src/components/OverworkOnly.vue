@@ -1,17 +1,25 @@
 <template lang="pug">
 span
-  template(v-if="overwork > 0")
+  template(v-if="overworkTime(userId, date) > 0")
     slot
   template(v-else)
     slot(name="else")
 </template>
 
 <script lang="ts">
-import { Component, Vue, Mixins } from 'vue-property-decorator';
-import TimeMeasurable from '@/mixins/TimeMeasurable';
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import { mapGetters } from 'vuex';
 
-@Component
-export default class OverworkOnly extends Mixins(TimeMeasurable) {
+@Component({
+  computed: {
+    ...mapGetters([
+      'date',
+      'overworkTime',
+    ]),
+  },
+})
+export default class OverworkOnly extends Vue {
+  @Prop() private userId!: string;
 }
 </script>
 
