@@ -1,18 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import * as ACTION from '@/types/ActionTypes';
 import { SET, SET_USER, SET_WAIT, SET_DATE } from '@/types/MutationTypes';
 import State from '@/models/State';
-import { db } from '@/plugins/firebase';
-import moment from 'moment';
 import _ from 'lodash';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import User from './models/User';
-import Shift from './models/Shift';
-import Overwork from './models/Overwork';
 import { toTime } from '@/plugins/datetimeUtil';
 import Task from '@/models/Task';
+import actions from '@/actions';
 
 const AUTH = firebase.auth();
 AUTH.languageCode = 'ja';
@@ -176,141 +171,5 @@ export default new Vuex.Store({
       state.date = payload;
     },
   },
-  actions: {
-    async [ACTION.LISTEN]({ commit }, { query, name, klass }) {
-      const unsubscribe = query.onSnapshot((queryRef: any) => {
-        const map = new Map();
-        queryRef.forEach((doc: any) => {
-          map.set(doc.id, new klass({...doc.data()}));
-        });
-        commit(SET, { name, map });
-      });
-      return unsubscribe;
-    },
-    async [ACTION.CREATE]({}, payload) {
-      const conn = db.collection(payload.constructor.collectionName);
-      const ref: any = await conn.add({...payload});
-      return ref.id;
-    },
-    async [ACTION.NEW]({}, { id, payload }) {
-      const conn = db.collection(payload.constructor.collectionName);
-      await conn.doc(id).set({...payload});
-    },
-    async [ACTION.UPDATE]({}, { collectionName, id, updates }) {
-      await db.collection(collectionName).doc(id).update(updates);
-    },
-    async [ACTION.DELETE]({}, { collectionName, id }) {
-      await db.collection(collectionName).doc(id).delete();
-    },
-    async [ACTION.WAIT]({ commit }, cb) {
-      try {
-        commit(SET_WAIT, true);
-        await cb();
-      } catch (err) {
-        alert(err);
-      } finally {
-        commit(SET_WAIT, false);
-      }
-    },
-    [ACTION.TODAY]({ dispatch }) {
-      const date = moment().startOf('day').valueOf();
-      dispatch(ACTION.SET_DATE, date);
-    },
-    [ACTION.YESTERDAY]({ dispatch, state }) {
-      const date = moment(state.date).subtract(1, 'days').valueOf();
-      dispatch(ACTION.SET_DATE, date);
-    },
-    [ACTION.TOMORROW]({ dispatch, state }) {
-      const date = moment(state.date).add(1, 'days').valueOf();
-      dispatch(ACTION.SET_DATE, date);
-    },
-    [ACTION.SET_DATE]({ commit, dispatch }, date) {
-      commit(SET_DATE, date);
-      dispatch(ACTION.LISTEN, {
-        query: db.collection('overworks').where('date', '==', date),
-        name: 'overworks',
-        klass: Overwork,
-      });
-      dispatch(ACTION.LISTEN, {
-        query: db.collection('shift').where('date', '==', date),
-        name: 'shift',
-        klass: Shift,
-      });
-    },
-    async [ACTION.LOGOUT]({ commit, dispatch }) {
-      await dispatch(
-        ACTION.WAIT,
-        async ()  => AUTH.signOut(),
-      );
-      commit(SET_USER, { user: null });
-    },
-    async [ACTION.SIGNUP]({ dispatch }, { email, password, name, manager }) {
-      const { user } = await AUTH.createUserWithEmailAndPassword(email, password);
-      if (user === null || !user.uid) {
-        alert('fail to create user');
-        return;
-      }
-      await dispatch(ACTION.PROFILE_UPDATE, { user, name });
-      const id = user.uid;
-      await dispatch(ACTION.NEW_USER, { id, name, email, manager });
-    },
-    async [ACTION.PROFILE_UPDATE]({}, { user, name }) {
-      user.updateProfile({ displayName: name });
-    },
-    async [ACTION.NEW_USER]({ dispatch }, { id, name, email, manager }) {
-      const payload = new User({ name, email, manager });
-      await dispatch(ACTION.NEW, { id, payload });
-    },
-    async [ACTION.UPDATE_USER]({ dispatch, state }, { userId, name }) {
-      await dispatch(ACTION.UPDATE, {
-        collectionName: 'users',
-        id: userId,
-        updates: { name },
-      });
-      await dispatch(ACTION.PROFILE_UPDATE, {
-        user: state.user,
-        name,
-      });
-    },
-    async [ACTION.SIGNIN]({ dispatch }, { email, password }) {
-      await AUTH.signInWithEmailAndPassword(email, password);
-    },
-    async [ACTION.PASSWORD_RESET]({}, { email }) {
-      AUTH.sendPasswordResetEmail(email);
-    },
-    async [ACTION.CREATE_SHIFT]({ dispatch }, { userId, successorId, startTime, date }) {
-      await dispatch(ACTION.CREATE, new Shift({ userId, successorId, startTime, date, managerId: null }));
-    },
-    async [ACTION.ALLOW_SHIFT]({ dispatch }, { shiftId, managerId }) {
-      await dispatch(ACTION.UPDATE, {
-        collectionName: 'shifts',
-        id: shiftId,
-        updates: {
-          managerId,
-        },
-      });
-    },
-    async [ACTION.ALLOW_OVERWORK]({ dispatch }, { userId, date, managerId }) {
-      await dispatch(ACTION.CREATE, new Overwork({ userId, date, managerId }));
-    },
-    [ACTION.UPDATE_TASK]({ dispatch }, { taskId, updates }) {
-      dispatch(ACTION.UPDATE, {
-        collectionName: 'tasks',
-        id: taskId,
-        updates,
-      });
-    },
-    [ACTION.UPDATE_TASK_PRIORITY]({ dispatch }, { priority, taskId }) {
-      dispatch(ACTION.UPDATE_TASK, { taskId, updates: { priority } });
-    },
-    [ACTION.UPDATE_TASK_PLAN]({ dispatch }, { plan, taskId }) {
-      dispatch(ACTION.UPDATE_TASK, { taskId, updates: { plan } });
-    },
-    [ACTION.UPDATE_TASK_ACTUAL]({ dispatch }, { actual, taskId }) {
-      dispatch(ACTION.UPDATE_TASK, { taskId, updates: { actual } });
-    },
-    [ACTION.UPDATE_TASK_MEMO]({ dispatch }, { memo, taskId }) {
-      dispatch(ACTION.UPDATE_TASK, { taskId, updates: { memo } });
-    },
-  },
+  actions,
 });

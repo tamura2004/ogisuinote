@@ -9,11 +9,13 @@ import uppperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
 import toDate from '@/filters/ToDate';
 import toTime from '@/filters/ToTime';
+import * as ACTION from '@/types/ActionTypes';
 
 Vue.config.productionTip = false;
 
 listen(store, User);
 listenUser(store); // listen current user
+store.dispatch(ACTION.TODAY); // set today and listen shift and overwork
 
 const requireComponent = require.context(
   './components',
