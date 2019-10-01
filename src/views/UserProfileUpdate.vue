@@ -16,11 +16,7 @@ import { mapGetters } from 'vuex';
 
 type validateFunc = Array<(v: string) => boolean | string>;
 
-@Component({
-  computed: {
-    ...mapGetters(['mailDomain']),
-  },
-})
+@Component
 export default class UserProfileUpdate extends Vue {
   private name: string = '';
   private valid: boolean = false;

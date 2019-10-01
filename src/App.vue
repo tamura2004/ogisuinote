@@ -1,6 +1,6 @@
 <template lang="pug">
 v-app
-  the-progress-circler(v-if="wait || !$store.getters.config")
+  the-progress-circler(v-if="wait")
   router-view(v-else)
 </template>
 

@@ -22,11 +22,7 @@ import { mapGetters } from 'vuex';
 
 type validateFunc = Array<(v: string) => boolean | string>;
 
-@Component({
-  computed: {
-    ...mapGetters(['mailDomain']),
-  },
-})
+@Component
 export default class Signup extends Vue {
   private name = null;
   private email = null;

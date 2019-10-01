@@ -17,11 +17,7 @@ import { mapGetters } from 'vuex';
 
 type validateFunc = Array<(v: string) => boolean | string>;
 
-@Component({
-  computed: {
-    ...mapGetters(['mailDomain']),
-  },
-})
+@Component
 export default class ShiftNew extends Vue {
   private successorId: string | null = null;
   private startTime: number | null = null;

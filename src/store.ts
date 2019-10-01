@@ -53,15 +53,6 @@ export default new Vuex.Store({
     userIds(state) {
       return [...state.users.keys()];
     },
-    config(state) {
-      return state.config;
-    },
-    mailDomain(state, getters) {
-      return getters.config && getters.config.mailDomain;
-    },
-    serverUrl(state, getters) {
-      return getters.config && getters.config.serverUrl;
-    },
     hasShift(state) {
       return (userId: string, date: number) =>
         [...state.shifts].find(([id, shift]) => shift.userId === userId && shift.date === date);
